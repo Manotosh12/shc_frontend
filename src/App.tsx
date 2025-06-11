@@ -9,6 +9,7 @@ import Services from "./pages/Services";
 
 function App() {
   return (
+
     <Router>
       <Navbar />
       <Routes>
