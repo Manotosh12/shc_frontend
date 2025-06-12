@@ -41,25 +41,6 @@ h1 {
   line-height: 1.1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #f7f4f4;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     color: #213547;
@@ -68,11 +49,7 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
-  button {
-    background-color: #f9f9f9;
-  }
 }
-
 @keyframes scroll {
   0% {
     transform: translateY(0);
@@ -87,3 +64,4 @@ button:focus-visible {
 .animate-scroll {
   animation: scroll 2s ease-in-out infinite;
 }
+
