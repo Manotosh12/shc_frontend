@@ -1,4 +1,3 @@
-import React from 'react';
 
 const FertilizerRecommendation = () => {
   const handleSubmit = (e: React.FormEvent) => {

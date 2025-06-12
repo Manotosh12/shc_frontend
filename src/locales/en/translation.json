@@ -1,0 +1,74 @@
+{
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact",
+    "language": "Language",
+    "login": "Log In",
+    "signup": "Sign Up"
+  },
+  "hero": {
+    "title": "Welcome to the Soil Health Dashboard",
+    "subtitle": "Know your soil. Grow your future.",
+    "cta": "Explore Now"
+  },
+  "about": {
+    "bannerAlt": "About Us Banner",
+    "title": "About Soil Health Dashboard",
+    "subtitle": "Empowering farmers with technology and insight",
+    "description1": "Our Soil Health Dashboard is a comprehensive platform that provides region-specific soil health reports and guidance for farmers across India.",
+    "description2": "We aim to support sustainable farming by giving accurate data, fertilizer suggestions, and access to government schemes.",
+    "features": {
+      "title": "Key Features",
+      "reportTitle": "Soil Health Reports",
+      "reportDesc": "Detailed, region-wise soil data including nutrient levels and recommendations.",
+      "updateTitle": "Real-Time Updates",
+      "updateDesc": "Live data updates to track soil health and agricultural progress."
+    },
+    "benefits": {
+      "title": "Why Choose Us",
+      "point1": "Available in multiple Indian languages for better accessibility.",
+      "point2": "Helps farmers improve yield with scientific insights."
+    }
+  },
+  "servicesTitle": "Our Services",
+  "servicesSubtitle": "Providing crucial soil insights and support to farmers",
+  "service1": {
+    "title": "Soil Testing",
+    "desc": "Comprehensive analysis of soil health across different regions."
+  },
+  "service2": {
+    "title": "Fertilizer Recommendations",
+    "desc": "Personalized fertilizer suggestions based on soil data."
+  },
+  "service3": {
+    "title": "Crop Advisory",
+    "desc": "Expert advice on crop rotation, selection, and soil compatibility."
+  },
+  "service4": {
+    "title": "Government Schemes",
+    "desc": "Access to latest government soil and agriculture programs."
+  },
+  "service5": {
+    "title": "Multilingual Access",
+    "desc": "Use the platform in multiple Indian languages."
+  },
+  "service6": {
+    "title": "Mobile Friendly",
+    "desc": "Easy access from mobile and tablet devices."
+  },
+  "contactTitle": "Contact Us",
+  "contactSubtitle": "We’d love to hear from you. Send your message below.",
+  "contactForm": {
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "Enter your phone number",
+    "messageLabel": "Your Message",
+    "messagePlaceholder": "Write your message here...",
+    "submitButton": "Send Message"
+  }
+}
