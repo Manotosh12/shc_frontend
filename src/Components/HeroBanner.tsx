@@ -24,9 +24,6 @@ const HeroBanner = () => {
             Monitor soil nutrients, get personalized recommendations, and grow sustainably with
             real-time insights.
           </p>
-          <button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-            Get Started
-          </button>
         </div>
       </div>
 
