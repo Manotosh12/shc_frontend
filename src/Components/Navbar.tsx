@@ -81,7 +81,7 @@ const Navbar = () => {
                 setLoginOpen(true);
                 setMenuOpen(false);
               }}
-              className="bg-white text-black-700 hover:bg-green-100 px-3 py-1 rounded font-semibold"
+              className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-xl font-semibold transition duration-200 shadow-md"
             >
               Log In
             </button>
