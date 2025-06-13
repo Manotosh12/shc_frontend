@@ -65,13 +65,13 @@ const SoilReportDashboard = () => {
   const [reports, setReports] = useState<SoilReport[]>([]);
 
   useEffect(() => {
-    fetchStates().then(res => setStates(res.data as State[]));
+    fetchStates().then((res: any) => setStates(res.data as State[]));
   }, []);
 
     useEffect(() => {
     if (selectedState) {
-        fetchDistricts(selectedState).then(res => setDistricts(res.data as District[]));
-        fetchDistrictSoilReport(selectedState).then(res => {
+        fetchDistricts(selectedState).then((res: any) => setDistricts(res.data as District[]));
+        fetchDistrictSoilReport(selectedState).then((res: any) => {
         // Flatten and map soil reports
         const districtsData = res.data as any[];
         const flatReports = districtsData.flatMap((district: any) =>
@@ -89,10 +89,10 @@ const SoilReportDashboard = () => {
 
     useEffect(() => {
     if (selectedDistrict) {
-        fetchBlocks(selectedDistrict).then(res => setBlocks(res.data as Block[]));
-        fetchBlockSoilReport(selectedDistrict).then(res => {
+        fetchBlocks(selectedDistrict).then((res: any) => setBlocks(res.data as Block[]));
+        fetchBlockSoilReport(selectedDistrict).then((res: any) => {
         // Flatten and map soil reports
-        const blocksData = res.data as any[];
+        const blocksData = (res.data ?? []) as any[];
         const flatReports = blocksData.flatMap((block: any) =>
             (block.soil_reports || []).map((report: any) => ({
             ...report,
