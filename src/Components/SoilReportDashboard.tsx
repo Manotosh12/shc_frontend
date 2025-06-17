@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import {
-  fetchStates, fetchDistricts, fetchBlocks,
-  fetchDistrictSoilReport, fetchBlockSoilReport
+  fetchStates, fetchDistrictsByState, fetchBlocksByDistrict,
+  fetchDistrictSoilReportByState, fetchBlockSoilReportByDistrict
 } from '../services/api';
+
 
 interface State {
   state_id: string;
@@ -19,31 +20,11 @@ interface Block {
 
 interface SoilReport {
   locationName: string;
-  n: {
-    High: number;
-    Medium: number;
-    Low: number;
-  };
-  p: {
-    High: number;
-    Medium: number;
-    Low: number;
-  };
-  k: {
-    High: number;
-    Medium: number;
-    Low: number;
-  };
-  OC: {
-    High: number;
-    Medium: number;
-    Low: number;
-  };
-  pH: {
-    Acidic: number;
-    Neutral: number;
-    Alkaline: number;
-  };
+  n: { High: number; Medium: number; Low: number; };
+  p: { High: number; Medium: number; Low: number; };
+  k: { High: number; Medium: number; Low: number; };
+  OC: { High: number; Medium: number; Low: number; };
+  pH: { Acidic: number; Neutral: number; Alkaline: number; };
   timestamp: string;
 }
 
@@ -68,102 +49,101 @@ const SoilReportDashboard = () => {
     fetchStates().then((res: any) => setStates(res.data as State[]));
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     if (selectedState) {
-        fetchDistricts(selectedState).then((res: any) => setDistricts(res.data as District[]));
-        fetchDistrictSoilReport(selectedState).then((res: any) => {
-        // Flatten and map soil reports
+      fetchDistrictsByState(selectedState).then((res: any) => setDistricts(res.data as District[]));
+      fetchDistrictSoilReportByState(selectedState).then((res: any) => {
         const districtsData = res.data as any[];
         const flatReports = districtsData.flatMap((district: any) =>
-            (district.soil_reports || []).map((report: any) => ({
+          (district.soil_reports || []).map((report: any) => ({
             ...report,
             locationName: district.district_name,
-            }))
+          }))
         );
         setReports(flatReports);
-        });
-        setSelectedDistrict('');
-        setSelectedBlock('');
+      });
+      setSelectedDistrict('');
+      setSelectedBlock('');
     }
-    }, [selectedState]);
+  }, [selectedState]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (selectedDistrict) {
-        fetchBlocks(selectedDistrict).then((res: any) => setBlocks(res.data as Block[]));
-        fetchBlockSoilReport(selectedDistrict).then((res: any) => {
-        // Flatten and map soil reports
+      fetchBlocksByDistrict(selectedDistrict).then((res: any) => setBlocks(res.data as Block[]));
+      fetchBlockSoilReportByDistrict(selectedDistrict).then((res: any) => {
         const blocksData = (res.data ?? []) as any[];
         const flatReports = blocksData.flatMap((block: any) =>
-            (block.soil_reports || []).map((report: any) => ({
+          (block.soil_reports || []).map((report: any) => ({
             ...report,
             locationName: block.block_name,
-            }))
+          }))
         );
         setReports(flatReports);
-        });
-        setSelectedBlock('');
+      });
+      setSelectedBlock('');
     }
-    }, [selectedDistrict]);
-
+  }, [selectedDistrict]);
 
   return (
-  <div className="p-6">
-    <div className="flex gap-4 mb-6">
-      <select value={selectedState} onChange={e => setSelectedState(e.target.value)} className="p-2 border rounded">
-        <option value="">Select a state</option>
-        {states.map(state => (
-          <option key={state.state_id} value={state.state_id}>{state.state_name}</option>
-        ))}
-      </select>
+    <div className="p-6">
+      <div className="flex gap-4 mb-6">
+        <select value={selectedState} onChange={e => setSelectedState(e.target.value)} className="p-2 border rounded">
+          <option value="">Select a state</option>
+          {states.map(state => (
+            <option key={state.state_id} value={state.state_id}>{state.state_name}</option>
+          ))}
+        </select>
 
-      <select value={selectedDistrict} onChange={e => setSelectedDistrict(e.target.value)} className="p-2 border rounded" disabled={!selectedState}>
-        <option value="">Select a district</option>
-        {districts.map(d => (
-          <option key={d.district_id} value={d.district_id}>{d.district_name}</option>
-        ))}
-      </select>
+        <select value={selectedDistrict} onChange={e => setSelectedDistrict(e.target.value)} className="p-2 border rounded" disabled={!selectedState}>
+          <option value="">Select a district</option>
+          {districts.map(d => (
+            <option key={d.district_id} value={d.district_id}>{d.district_name}</option>
+          ))}
+        </select>
 
-      <select value={selectedBlock} onChange={e => setSelectedBlock(e.target.value)} className="p-2 border rounded" disabled={!selectedDistrict}>
-        <option value="">Select a block</option>
-        {blocks.map(b => (
-          <option key={b.block_id} value={b.block_id}>{b.block_name}</option>
-        ))}
-      </select>
-    </div>
+        <select value={selectedBlock} onChange={e => setSelectedBlock(e.target.value)} className="p-2 border rounded" disabled={!selectedDistrict}>
+          <option value="">Select a block</option>
+          {blocks.map(b => (
+            <option key={b.block_id} value={b.block_id}>{b.block_name}</option>
+          ))}
+        </select>
+      </div>
 
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border rounded shadow">
-        <thead className="bg-green-100">
-          <tr>
-            <th className="px-4 py-2 border">Location</th>
-            <th className="px-4 py-2 border" colSpan={3}>Nitrogen</th>
-            <th className="px-4 py-2 border" colSpan={3}>Phosphorous</th>
-            <th className="px-4 py-2 border" colSpan={3}>Potassium</th>
-            <th className="px-4 py-2 border" colSpan={3}>OC</th>
-            <th className="px-4 py-2 border" colSpan={3}>pH Level</th>
-          </tr>
-          <tr>
-            <th className="px-4 py-2 border"></th>
-            <th className="px-2 py-1 border">High</th>
-            <th className="px-2 py-1 border">Medium</th>
-            <th className="px-2 py-1 border">Low</th>
-            <th className="px-2 py-1 border">High</th>
-            <th className="px-2 py-1 border">Medium</th>
-            <th className="px-2 py-1 border">Low</th>
-            <th className="px-2 py-1 border">High</th>
-            <th className="px-2 py-1 border">Medium</th>
-            <th className="px-2 py-1 border">Low</th>
-            <th className="px-2 py-1 border">High</th>
-            <th className="px-2 py-1 border">Medium</th>
-            <th className="px-2 py-1 border">Low</th>
-            <th className="px-2 py-1 border">Acidic</th>
-            <th className="px-2 py-1 border">Neutral</th>
-            <th className="px-2 py-1 border">Alkaline</th>
-          </tr>
-        </thead>
-        <tbody>
+      
+
+      <div className="overflow-x-auto mt-8">
+        <table className="min-w-full bg-white border rounded shadow">
+          <thead className="bg-green-100">
+            <tr>
+              <th className="px-4 py-2 border">Location</th>
+              <th className="px-4 py-2 border" colSpan={3}>Nitrogen</th>
+              <th className="px-4 py-2 border" colSpan={3}>Phosphorous</th>
+              <th className="px-4 py-2 border" colSpan={3}>Potassium</th>
+              <th className="px-4 py-2 border" colSpan={3}>OC</th>
+              <th className="px-4 py-2 border" colSpan={3}>pH Level</th>
+            </tr>
+            <tr>
+              <th className="px-4 py-2 border"></th>
+              <th className="px-2 py-1 border">High</th>
+              <th className="px-2 py-1 border">Medium</th>
+              <th className="px-2 py-1 border">Low</th>
+              <th className="px-2 py-1 border">High</th>
+              <th className="px-2 py-1 border">Medium</th>
+              <th className="px-2 py-1 border">Low</th>
+              <th className="px-2 py-1 border">High</th>
+              <th className="px-2 py-1 border">Medium</th>
+              <th className="px-2 py-1 border">Low</th>
+              <th className="px-2 py-1 border">High</th>
+              <th className="px-2 py-1 border">Medium</th>
+              <th className="px-2 py-1 border">Low</th>
+              <th className="px-2 py-1 border">Acidic</th>
+              <th className="px-2 py-1 border">Neutral</th>
+              <th className="px-2 py-1 border">Alkaline</th>
+            </tr>
+          </thead>
+          <tbody>
             {reports.map((report, idx) => (
-                <tr key={idx} className="text-center">
+              <tr key={idx} className="text-center">
                 <td className="px-4 py-2 border font-semibold text-left">{report.locationName}</td>
                 <td className="px-2 py-1 border">{getPercent(report.n?.High ?? 0, report.n)}</td>
                 <td className="px-2 py-1 border">{getPercent(report.n?.Medium ?? 0, report.n)}</td>
@@ -180,13 +160,13 @@ const SoilReportDashboard = () => {
                 <td className="px-2 py-1 border">{getPercent(report.pH?.Acidic ?? 0, report.pH)}</td>
                 <td className="px-2 py-1 border">{getPercent(report.pH?.Neutral ?? 0, report.pH)}</td>
                 <td className="px-2 py-1 border">{getPercent(report.pH?.Alkaline ?? 0, report.pH)}</td>
-                </tr>
+              </tr>
             ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default SoilReportDashboard;
