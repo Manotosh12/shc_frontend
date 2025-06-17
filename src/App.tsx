@@ -7,7 +7,7 @@ import About from "./pages/About Us";
 import Contact from "./pages/Contact Us";
 import Services from "./pages/Services";
 import NutrientDashboard from "./pages/NutrientDashboard";
-import FertilizerRecommendation from "./pages/FertilizerRecommendation";
+import FertilizerRecommendation from "./pages/FertlizerRecommendations";
 import './App.css'
 
 function App() {
