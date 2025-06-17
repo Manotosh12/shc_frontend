@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import HeroBanner from "./components/HeroBanner";
-import Footer from "./components/Footer";
-import Layout from "./components/Layout";
+import Navbar from "./Components/Navbar";
+import HeroBanner from "./Components/HeroBanner";
+import Footer from "./Components/Footer";
+import Layout from "./Components/Layout";
 import About from "./pages/About Us";
 import Contact from "./pages/Contact Us";
 import Services from "./pages/Services";

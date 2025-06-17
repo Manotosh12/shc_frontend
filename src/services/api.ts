@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 const API_BASE = 'http://localhost:3000'; // Adjust to your NestJS backend
 
 export const fetchStates = () => axios.get(`${API_BASE}/states`);

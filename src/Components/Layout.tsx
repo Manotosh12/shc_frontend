@@ -10,10 +10,8 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="flex flex-col">
       <Navbar />
-      <main className="flex-1 flex items-center justify-center">
-        <div className="w-full max-w-7xl mx-auto px-8">
-          {children}
-        </div>
+      <main className="flex-1 mt-16">
+        {children}
       </main>
       <Footer />
     </div>

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { fetchStateSoilReportPie, fetchDistrictSoilReportPie, fetchBlockSoilReportPie } from '../services/api';
-import { PieChart } from '@mui/x-charts/PieChart';
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash.isequal';
+import { PieChart } from '@mui/x-charts';
+
+
 
 interface SoilPieChartsProps {
   level: 'state' | 'district' | 'block';
