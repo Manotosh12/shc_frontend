@@ -162,7 +162,7 @@ const FertilizerRecommendation = () => {
                 type="submit"
                 className="bg-[#22c55e] hover:bg-[#16a34a] text-white px-8 py-2 rounded text-sm font-medium cursor-pointer transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
               >
-                Get Recommendation
+                Get Recommendations
               </button>
             </div>
           </form>
