@@ -1,86 +1,88 @@
-const Contact = () => {
+import { useEffect, useState } from 'react';
+import { api } from '../services/api';
+import type { Contact } from '../types';
+
+const ContactUs = () => {
+  const categories = ['DACFW', 'NIC', 'STATE'];
+  const [activeTab, setActiveTab] = useState('DACFW');
+  const [contacts, setContacts] = useState<Contact[]>([]);
+
+  useEffect(() => {
+    api.get<Contact[]>(`/contacts?category=${activeTab}`).then((res) => {
+      setContacts(res.data);
+    });
+  }, [activeTab]);
+
   return (
-    <main className="min-h-screen bg-[url('/Contact.jpg')] bg-cover bg-top bg-no-repeat">
-      <div>
+    <main className="min-h-screen relative bg-white">
+      {/* Banner Background */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/Contact.jpg"
+          alt="Contact Banner"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-        {/* Header */}
-        <section className="text-center mb-12">
-          <h1 className="text-4xl font-extrabold text-green-800 mb-4">Contact Us</h1>
-          <p className="text-lg text-gray-700">
-            Have questions or need help? Reach out to us — we're here to assist you.
-          </p>
-        </section>
+      {/* Overlay Content */}
+      <div className="relative z-10 py-16 px-4 md:px-12 min-h-screen">
+        <div className="text-center">
+        <h1 className="text-2xl font-extrabold bg-green-700 text-white mb-10 text-center py-2 px-4 rounded-xl shadow-md inline-block">
+          Contact Us
+        </h1>
+        </div>
 
-     {/* Contact Form */}
-<div className="max-w-3xl mx-auto bg-white shadow-2xl rounded-3xl p-6 md:p-12 border border-gray-100">
-  <form className="grid grid-cols-1 md:grid-cols-2 gap-8">
-    
-    {/* Name */}
-    <div className="col-span-2">
-      <label className="block text-sm font-semibold text-gray-800 mb-2">
-        Name
-      </label>
-      <input
-        type="text"
-        placeholder="Enter your full name"
-        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner transition duration-200"
-        required
-      />
-    </div>
+        {/* Tab Buttons */}
+        <div className="flex justify-center mb-8 gap-4 flex-wrap">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={`px-6 py-2 rounded-full text-sm font-semibold shadow transition duration-300 ${
+                activeTab === cat
+                  ? 'bg-green-700 text-white'
+                  : 'bg-green-100 text-green-900 hover:bg-green-200'
+              }`}
+              onClick={() => setActiveTab(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
-    {/* Email */}
-    <div>
-      <label className="block text-sm font-semibold text-gray-800 mb-2">
-        Email
-      </label>
-      <input
-        type="email"
-        placeholder="you@example.com"
-        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner transition duration-200"
-        required
-      />
-    </div>
-
-    {/* Phone */}
-    <div>
-      <label className="block text-sm font-semibold text-gray-800 mb-2">
-        Phone
-      </label>
-      <input
-        type="tel"
-        placeholder="1234567890"
-        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner transition duration-200"
-        required
-      />
-    </div>
-
-    {/* Message */}
-    <div className="col-span-2">
-      <label className="block text-sm font-semibold text-gray-800 mb-2">
-        Message
-      </label>
-      <textarea
-        rows={5}
-        placeholder="Write your message here..."
-        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner transition duration-200 resize-none"
-        required
-      ></textarea>
-    </div>
-
-    {/* Submit Button */}
-    <div className="col-span-2 text-center md:text-right mt-2">
-      <button
-        type="submit"
-        className="bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:from-green-700 hover:to-green-800 transition-all duration-300 ease-in-out"
-      >
-        ✉️ Send Message
-      </button>
-    </div>
-  </form>
-</div>
+        {/* Contacts Table */}
+        <div className="overflow-x-auto rounded-xl shadow-lg bg-white">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-green-200 text-green-900">
+              <tr>
+                <th className="px-6 py-3">Name</th>
+                <th className="px-6 py-3">Designation</th>
+                <th className="px-6 py-3">Phone</th>
+                <th className="px-6 py-3">Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {contacts.length === 0 ? (
+                <tr>
+                  <td colSpan={4} className="text-center py-6 text-gray-600">
+                    No contacts available for <strong>{activeTab}</strong>.
+                  </td>
+                </tr>
+              ) : (
+                contacts.map((c) => (
+                  <tr key={c.id} className="border-t hover:bg-green-50">
+                    <td className="px-6 py-4">{c.name}</td>
+                    <td className="px-6 py-4">{c.designation}</td>
+                    <td className="px-6 py-4">{c.phone}</td>
+                    <td className="px-6 py-4">{c.email}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </main>
   );
 };
 
-export default Contact;
+export default ContactUs;
