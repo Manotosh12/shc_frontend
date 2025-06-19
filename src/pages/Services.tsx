@@ -1,6 +1,6 @@
 const Services = () => {
   return (
-    <main className="pt-24 px-6 md:px-16 bg-white text-gray-800">
+    <main className="pt-2 mt-2 px-6 md:px-16 bg-white text-gray-800">
       <section className="text-center mb-12">
         <h1 className="text-4xl font-bold text-green-800 mb-4">Our Services</h1>
         <p className="text-lg text-gray-600">

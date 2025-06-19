@@ -14,22 +14,23 @@ const ContactUs = () => {
   }, [activeTab]);
 
   return (
-    <main className="min-h-screen relative bg-white">
-      {/* Banner Background */}
-      <div className="absolute inset-0 z-0">
+    <main className=" min-h-screen bg-white text-gray-800">
+      {/* ✅ Banner */}
+      <div className="w-full mb-5">
         <img
           src="/Contact.jpg"
           alt="Contact Banner"
-          className="w-full h-full object-cover"
+          className="w-full h-[290px] object-cover"
         />
       </div>
 
-      {/* Overlay Content */}
-      <div className="relative z-10 py-16 px-4 md:px-12 min-h-screen">
-        <div className="text-center">
-        <h1 className="text-2xl font-extrabold bg-green-700 text-white mb-10 text-center py-2 px-4 rounded-xl shadow-md inline-block">
-          Contact Us
-        </h1>
+      {/* ✅ Content below the banner */}
+      <div className="px-4 md:px-12">
+        {/* Heading */}
+        <div className="text-center mb-10">
+          <h1 className="text-2xl font-extrabold bg-green-700 text-white py-2 px-4 rounded-xl shadow-md inline-block">
+            Contact Us
+          </h1>
         </div>
 
         {/* Tab Buttons */}

@@ -1,6 +1,6 @@
 const About = () => {
   return (
-    <div className="pt-16 pb-16 bg-white text-gray-800">
+    <div className=" pb-16 bg-white text-gray-800">
 
       {/* Full Width Banner Image */}
       <div className="w-full mb-12">
