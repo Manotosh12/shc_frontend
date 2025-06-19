@@ -30,21 +30,9 @@ h1 {
   line-height: 1.1;
 }
 
-<<<<<<< HEAD
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #213547;
-    background-color: #060606;
-  }
-  a:hover {
-    color: #747bff;
-  }
-}
-=======
 
 
 
->>>>>>> e0b256df0a4e882e50a7e52e43b5b5c41f8bf376
 @keyframes scroll {
   0% {
     transform: translateY(0);
