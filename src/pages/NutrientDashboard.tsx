@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-
-
-import SoilReportDashboard from '../Components/SoilReportDashboard';
-import SoilPieCharts from '../Components/SoilPieCharts';
 import { fetchBlocksByDistrict, fetchDistrictsByState, fetchStates } from '../services/api';
+import SoilPieCharts from '../components/SoilPieCharts';
+import SoilReportDashboard from '../components/SoilReportDashboard';
 
 type StateType = { state_id: string; state_name: string };
 type DistrictType = { district_id: string; district_name: string };

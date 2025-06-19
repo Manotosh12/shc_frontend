@@ -1,14 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./Components/Navbar";
-import HeroBanner from "./Components/HeroBanner";
-import Footer from "./Components/Footer";
-import Layout from "./Components/Layout";
+
 import About from "./pages/About Us";
 import Contact from "./pages/Contact Us";
 import Services from "./pages/Services";
 import NutrientDashboard from "./pages/NutrientDashboard";
 import FertilizerRecommendation from "./pages/FertilizerRecommendation";
 import './App.css'
+import Navbar from "./components/Navbar";
+import HeroBanner from "./components/HeroBanner";
+import Footer from "./components/Footer";
+import Layout from "./components/Layout";
 
 function App() {
   return (
@@ -18,7 +19,11 @@ function App() {
         <Route path="/" element={
           <div className="flex flex-col min-h-screen">
             <Navbar />
-            <HeroBanner />
+            <main className="flex-1 mt-16">
+              <div className="px-4 md:px-12 lg:px-24 xl:px-32 2xl:px-64 w-full mx-auto">
+                <HeroBanner />
+              </div>
+            </main>
             <Footer />
           </div>
         } />

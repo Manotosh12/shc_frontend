@@ -50,7 +50,7 @@ const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
   const nutrients = ['n', 'p', 'k', 'OC', 'pH'];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
       {nutrients.map(nutrient => {
         const values = data[nutrient];
         const total = Object.values(values).reduce((sum, v) => sum + v, 0);
@@ -63,8 +63,8 @@ const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
         }));
 
         return (
-          <div key={nutrient} className="p-4 border rounded shadow bg-white">
-            <h2 className="text-xl font-semibold mb-2">{nutrient.toUpperCase()}</h2>
+          <div key={nutrient} className="p-2 border rounded shadow bg-white">
+            <h2 className="text-lg font-semibold mb-2">{nutrient.toUpperCase()}</h2>
               <PieChart
                 series={[
                   {
@@ -73,8 +73,8 @@ const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
                     arcLabelMinAngle: 10,
                   },
                 ]}
-                width={300}
-                height={300}
+                width={200}
+                height={200}
                 sx={{
                   '& .MuiPieArc-root': {
                     transition: 'transform 0.2s',
@@ -83,6 +83,9 @@ const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
                   '& .MuiPieArc-root:hover': {
                     transform: 'scale(1.07)',
                     filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.15))',
+                  },
+                  '& .MuiPieArcLabel-root': {
+                    fontSize: 12,
                   },
                 }}
               />
