@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import type { Contact } from '../types';
+import { useTranslation } from 'react-i18next';
 
 const ContactUs = () => {
+  const { t } = useTranslation();
+
   const categories = ['DACFW', 'NIC', 'STATE'];
   const [activeTab, setActiveTab] = useState('DACFW');
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -14,12 +17,12 @@ const ContactUs = () => {
   }, [activeTab]);
 
   return (
-    <main className=" min-h-screen bg-white text-gray-800">
+    <main className="min-h-screen bg-white text-gray-800">
       {/* ✅ Banner */}
       <div className="w-full mb-5">
         <img
           src="/Contact.jpg"
-          alt="Contact Banner"
+          alt={t('contact.bannerAlt')}
           className="w-full h-[290px] object-cover"
         />
       </div>
@@ -29,7 +32,7 @@ const ContactUs = () => {
         {/* Heading */}
         <div className="text-center mb-10">
           <h1 className="text-2xl font-extrabold bg-green-700 text-white py-2 px-4 rounded-xl shadow-md inline-block">
-            Contact Us
+            {t('contact.heading')}
           </h1>
         </div>
 
@@ -45,7 +48,7 @@ const ContactUs = () => {
               }`}
               onClick={() => setActiveTab(cat)}
             >
-              {cat}
+              {t(`contact.tabs.${cat}`)}
             </button>
           ))}
         </div>
@@ -55,17 +58,17 @@ const ContactUs = () => {
           <table className="w-full text-left border-collapse">
             <thead className="bg-green-200 text-green-900">
               <tr>
-                <th className="px-6 py-3">Name</th>
-                <th className="px-6 py-3">Designation</th>
-                <th className="px-6 py-3">Phone</th>
-                <th className="px-6 py-3">Email</th>
+                <th className="px-6 py-3">{t('contact.table.name')}</th>
+                <th className="px-6 py-3">{t('contact.table.designation')}</th>
+                <th className="px-6 py-3">{t('contact.table.phone')}</th>
+                <th className="px-6 py-3">{t('contact.table.email')}</th>
               </tr>
             </thead>
             <tbody>
               {contacts.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="text-center py-6 text-gray-600">
-                    No contacts available for <strong>{activeTab}</strong>.
+                    {t('contact.noContacts')} <strong>{t(`contact.tabs.${activeTab}`)}</strong>.
                   </td>
                 </tr>
               ) : (

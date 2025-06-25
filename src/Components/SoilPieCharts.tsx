@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchStateSoilReportPie, fetchDistrictSoilReportPie, fetchBlockSoilReportPie } from '../services/api';
 import isEqual from 'lodash.isequal';
 import { PieChart } from '@mui/x-charts';
-
-
+import { useTranslation } from 'react-i18next';
 
 interface SoilPieChartsProps {
   level: 'state' | 'district' | 'block';
@@ -20,13 +19,14 @@ interface SoilPieData {
 }
 
 const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
+  const { t } = useTranslation();
   const [data, setData] = useState<SoilPieData | null>(null);
 
   const fetchData = async () => {
     let res: SoilPieData[] | undefined;
     if (level === 'state') {
       const response = await fetchStateSoilReportPie(String(id));
-      res = response.data as SoilPieData[]; 
+      res = response.data as SoilPieData[];
     } else if (level === 'district') {
       const response = await fetchDistrictSoilReportPie(String(id));
       res = response.data as SoilPieData[];
@@ -45,7 +45,7 @@ const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
     }
   }, [level, id]);
 
-  if (!data) return <p className="text-gray-500">Loading data...</p>;
+  if (!data) return <p className="text-gray-500">{t('charts.loading')}</p>;
 
   const nutrients = ['n', 'p', 'k', 'OC', 'pH'];
 
@@ -65,30 +65,30 @@ const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
         return (
           <div key={nutrient} className="p-2 border rounded shadow bg-white">
             <h2 className="text-lg font-semibold mb-2">{nutrient.toUpperCase()}</h2>
-              <PieChart
-                series={[
-                  {
-                    data: chartData,
-                    arcLabel: (item: any) => `${item.percent}%`,
-                    arcLabelMinAngle: 10,
-                  },
-                ]}
-                width={200}
-                height={200}
-                sx={{
-                  '& .MuiPieArc-root': {
-                    transition: 'transform 0.2s',
-                    cursor: 'pointer',
-                  },
-                  '& .MuiPieArc-root:hover': {
-                    transform: 'scale(1.07)',
-                    filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.15))',
-                  },
-                  '& .MuiPieArcLabel-root': {
-                    fontSize: 12,
-                  },
-                }}
-              />
+            <PieChart
+              series={[
+                {
+                  data: chartData,
+                  arcLabel: (item: any) => `${item.percent}%`,
+                  arcLabelMinAngle: 10,
+                },
+              ]}
+              width={200}
+              height={200}
+              sx={{
+                '& .MuiPieArc-root': {
+                  transition: 'transform 0.2s',
+                  cursor: 'pointer',
+                },
+                '& .MuiPieArc-root:hover': {
+                  transform: 'scale(1.07)',
+                  filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.15))',
+                },
+                '& .MuiPieArcLabel-root': {
+                  fontSize: 12,
+                },
+              }}
+            />
           </div>
         );
       })}
