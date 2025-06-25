@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
-  const [language, setLanguage] = useState("English");
+  const { t, i18n } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [username, setUsername] = useState("");
@@ -23,15 +24,14 @@ const Navbar = () => {
   }, [loginOpen]);
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setLanguage(e.target.value);
-  };
-
-  const handleLoginSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert(`Logging in with username: ${username}`);
-    setLoginOpen(false);
-    setUsername("");
-    setPassword("");
+    const langMap: Record<string, string> = {
+      English: "en",
+      Hindi: "hi",
+      Kannada: "kn",
+      Tamil: "ta",
+      Telugu: "te"
+    };
+    i18n.changeLanguage(langMap[e.target.value]);
   };
 
   return (
@@ -41,7 +41,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center gap-3" tabIndex={0}>
             <img src="/logo.jpg" alt="Logo" className="w-10 h-10 rounded-full" />
-            <span className="text-xl font-bold tracking-wide">Soil Health Card</span>
+            <span className="text-xl font-bold tracking-wide">{t('navbar.title')}</span>
           </div>
 
           {/* Hamburger */}
@@ -58,23 +58,20 @@ const Navbar = () => {
 
           {/* Nav Links */}
           <nav
-            className={`flex-col md:flex-row md:flex gap-6 items-center absolute md:static top-16 left-0 w-full md:w-auto bg-green-700 md:bg-transparent px-6 md:px-0 py-4 md:py-0 transition-all duration-300 ${
-              menuOpen ? "flex" : "hidden md:flex"
-            }`}
+            className={`flex-col md:flex-row md:flex gap-6 items-center absolute md:static top-16 left-0 w-full md:w-auto bg-green-700 md:bg-transparent px-6 md:px-0 py-4 md:py-0 transition-all duration-300 ${menuOpen ? "flex" : "hidden md:flex"}`}
           >
             <a href="/" className="hover:text-gray-300" ref={firstLinkRef}>
-  Home
-</a>
-<a href="/about" className="hover:text-gray-300">
-  About
-</a>
-<a href="/services" className="hover:text-gray-300">
-  Services
-</a>
-<a href="/contact" className="hover:text-gray-300">
-  Contact
-</a>
-
+              {t('navbar.links.home')}
+            </a>
+            <a href="/about" className="hover:text-gray-300">
+              {t('navbar.links.about')}
+            </a>
+            <a href="/services" className="hover:text-gray-300">
+              {t('navbar.links.services')}
+            </a>
+            <a href="/contact" className="hover:text-gray-300">
+              {t('navbar.links.contact')}
+            </a>
 
             <button
               onClick={() => {
@@ -83,19 +80,17 @@ const Navbar = () => {
               }}
               className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-xl font-semibold transition duration-200 shadow-md"
             >
-              Log In
+              {t('navbar.login.button')}
             </button>
 
             <select
-              value={language}
               onChange={handleLanguageChange}
               className="bg-white text-black border border-dark rounded px-2 py-1"
-               >
-              <option value="English">English</option>
-              <option value="Hindi">हिन्दी</option>
-              <option value="Kannada">ಕನ್ನಡ</option>
-              <option value="Tamil">தமிழ்</option>
-              <option value="Telugu">తెలుగు</option>
+              defaultValue="English"
+            >
+              <option>English</option>
+              <option>Hindi</option>
+              <option>Kannada</option>
             </select>
           </nav>
         </div>
@@ -115,14 +110,20 @@ const Navbar = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <h2 id="login-title" className="text-lg font-bold mb-3">
-              Log In
+              {t('navbar.login.title')}
             </h2>
-            <p className="text-sm mb-4 text-gray-600">Welcome back! Please log in to continue.</p>
+            <p className="text-sm mb-4 text-gray-600">{t('navbar.login.subtitle')}</p>
 
-            <form onSubmit={handleLoginSubmit} className="space-y-3">
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              alert(`Logging in with username: ${username}`);
+              setLoginOpen(false);
+              setUsername("");
+              setPassword("");
+            }} className="space-y-3">
               <div>
                 <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                  Username
+                  {t('navbar.login.username')}
                 </label>
                 <input
                   id="username"
@@ -136,7 +137,7 @@ const Navbar = () => {
 
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  Password
+                  {t('navbar.login.password')}
                 </label>
                 <input
                   id="password"
@@ -154,13 +155,13 @@ const Navbar = () => {
                   onClick={() => setLoginOpen(false)}
                   className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
                 >
-                  Cancel
+                  {t('navbar.login.cancel')}
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
                 >
-                  Log In
+                  {t('navbar.login.submit')}
                 </button>
               </div>
             </form>

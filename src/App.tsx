@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import HeroBanner from "./components/HeroBanner";
 import Footer from "./components/Footer";
 import Layout from "./components/Layout";
+import './i18n'; 
 
 function App() {
   return (
