@@ -6,13 +6,14 @@ const About = () => {
   return (
     <div className="pb-16 bg-white text-gray-800">
       {/* Full Width Banner Image */}
-      <div className="w-full mb-12">
-        <img
-          src="/About us banner.jpg"
-          alt={t('about.bannerAlt')}
-          className="w-full h-[450px] object-cover"
-        />
-      </div>
+     <div className="w-full mb-12">
+  <img
+    src="/About us banner.jpg"
+    alt={t('about.bannerAlt')}
+    className="w-full h-48 sm:h-64 md:h-96 object-cover rounded-none"
+  />
+    </div>
+
 
       {/* Main Content Wrapper */}
       <div className="px-6 md:px-20 max-w-7xl mx-auto">
