@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 
 import { api } from '../services/api';
 import type { Contact } from '../types';
-import ContactUs from './Contact Us';
+import ContactUs from './Contact';
 
 // ✅ Mock react-i18next
 jest.mock('react-i18next', () => ({
