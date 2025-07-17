@@ -11,6 +11,9 @@ import HeroBanner from "./components/HeroBanner";
 import Footer from "./components/Footer";
 import Layout from "./components/Layout";
 import './i18n'; 
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -33,8 +36,10 @@ function App() {
         <Route path="/about" element={<Layout><About /></Layout>} />
         <Route path="/services" element={<Layout><Services /></Layout>} />
         <Route path="/contact" element={<Layout><Contact /></Layout>} />
-        <Route path="/nutrient-dashboard" element={<Layout><NutrientDashboard /></Layout>} />
+        <Route path="/nutrient-dashboard" element={<PrivateRoute><Layout><NutrientDashboard /></Layout></PrivateRoute>} />
         <Route path="/fertilizer-recommendation" element={<Layout><FertilizerRecommendation /></Layout>} />
+        <Route path="/signup" element={<Layout><Signup /></Layout>} />
+        <Route path="/login" element={<Layout><Login /></Layout>} />
       </Routes>
     </Router>
   );

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import AuthButtons from "./AuthButtons";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [loginOpen, setLoginOpen] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
@@ -15,13 +13,7 @@ const Navbar = () => {
     }
   }, [menuOpen]);
 
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && loginOpen) setLoginOpen(false);
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [loginOpen]);
+  
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const langMap: Record<string, string> = {
@@ -73,15 +65,8 @@ const Navbar = () => {
               {t('navbar.links.contact')}
             </a>
 
-            <button
-              onClick={() => {
-                setLoginOpen(true);
-                setMenuOpen(false);
-              }}
-              className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-xl font-semibold transition duration-200 shadow-md"
-            >
-              {t('navbar.login.button')}
-            </button>
+            <AuthButtons />
+
 
             <select
               onChange={handleLanguageChange}
@@ -96,78 +81,7 @@ const Navbar = () => {
         </div>
       </header>
 
-      {/* Login Modal */}
-      {loginOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="login-title"
-          onClick={() => setLoginOpen(false)}
-        >
-          <div
-            className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-sm"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 id="login-title" className="text-lg font-bold mb-3">
-              {t('navbar.login.title')}
-            </h2>
-            <p className="text-sm mb-4 text-gray-600">{t('navbar.login.subtitle')}</p>
-
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              alert(`Logging in with username: ${username}`);
-              setLoginOpen(false);
-              setUsername("");
-              setPassword("");
-            }} className="space-y-3">
-              <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                  {t('navbar.login.username')}
-                </label>
-                <input
-                  id="username"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                  className="w-full border rounded px-3 py-2 mt-1"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  {t('navbar.login.password')}
-                </label>
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full border rounded px-3 py-2 mt-1"
-                />
-              </div>
-
-              <div className="flex justify-end gap-3 mt-4">
-                <button
-                  type="button"
-                  onClick={() => setLoginOpen(false)}
-                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
-                >
-                  {t('navbar.login.cancel')}
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-                >
-                  {t('navbar.login.submit')}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+ 
     </>
   );
 };
