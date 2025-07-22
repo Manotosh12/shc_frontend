@@ -19,7 +19,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Home page with its own layout */}
         <Route path="/" element={
           <div className="flex flex-col min-h-screen">
             <Navbar />
