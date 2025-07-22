@@ -5,7 +5,7 @@ import Contact from "./pages/Contact";
 import Services from "./pages/Services";
 import NutrientDashboard from "./pages/NutrientDashboard";
 import FertilizerRecommendation from "./pages/FertilizerRecommendation";
-import './App.css'
+import './App.css';
 import Navbar from "./components/Navbar";
 import HeroBanner from "./components/HeroBanner";
 import Footer from "./components/Footer";
