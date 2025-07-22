@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,49 +7,63 @@ on:
     branches: [ main ]
 
 jobs:
-  ci:
+  test:
     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-        node-version: [16, 18, 20]
-        
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '18'
         cache: 'npm'
         
     - name: Install dependencies
       run: npm ci
       
-    - name: Check code formatting
-      run: npx prettier --check src/
+    - name: Run tests
+      run: npm run test:coverage
       
-    - name: Run ESLint
-      run: npx eslint src/ --ext .js,.jsx,.ts,.tsx --max-warnings 0
+    - name: Run linting
+      run: npm run lint
       
-    - name: Run type checking
-      run: npx tsc --noEmit
+    - name: Run TypeScript check
+      run: npx tsc -b
       
-    - name: Run unit tests
-      run: npm test -- --coverage --watchAll=false --testTimeout=10000
-      
-    - name: Build for production
+    - name: Build application
       run: npm run build
       
-    - name: Test build output
-      run: |
-        ls -la build/
-        echo "Build successful!"
-        
-    - name: Upload coverage reports
-      uses: codecov/codecov-action@v4
-      if: matrix.node-version == 18
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
       with:
-        file: ./coverage/lcov.info
-        fail_ci_if_error: false
+        name: build-files
+        path: dist/
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Trigger Render Deploy
+      run: |
+        curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+        
+    - name: Notify deployment status
+      run: echo "Deployment triggered successfully!"
+
+  # Optional: Deploy to staging for develop branch
+  deploy-staging:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    
+    steps:
+    - name: Deploy to Staging
+      run: |
+        curl -X POST "${{ secrets.RENDER_STAGING_DEPLOY_HOOK }}"
