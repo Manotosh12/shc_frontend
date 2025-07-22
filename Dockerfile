@@ -13,6 +13,9 @@ RUN npm install
 # Copy the rest of the app's source code
 COPY . .
 
+# 🔁 Optional: Clean Vite cache and dist to avoid stale builds
+RUN rm -rf node_modules/.vite dist
+
 # Expose Vite's default port
 EXPOSE 5173
 
