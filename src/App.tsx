@@ -1,19 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Services from "./pages/Services";
-import NutrientDashboard from "./pages/NutrientDashboard";
-import FertilizerRecommendation from "./pages/FertilizerRecommendation";
 import './App.css';
+import './i18n'; 
 import Navbar from "./components/Navbar";
 import HeroBanner from "./components/HeroBanner";
 import Footer from "./components/Footer";
+import About from "./pages/About";
 import Layout from "./components/Layout";
-import './i18n'; 
+import Services from "./pages/Services";
+import Contact from "./pages/Contact";
+import PrivateRoute from "./components/PrivateRoute";
+import NutrientDashboard from "./pages/NutrientDashboard";
+import FertilizerRecommendation from "./pages/FertilizerRecommendation";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import PrivateRoute from "./components/PrivateRoute";
+
 
 function App() {
   return (
