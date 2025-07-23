@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import AuthButtons from './AuthButtons';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useNavigate } from 'react-router-dom';
 
 // Mock useAuth0
 jest.mock('@auth0/auth0-react');

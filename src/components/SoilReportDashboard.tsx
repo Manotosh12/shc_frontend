@@ -4,15 +4,16 @@ import {
   fetchDistrictSoilReportByState, fetchBlockSoilReportByDistrict
 } from '../services/api';
 
-
 interface State {
   state_id: string;
   state_name: string;
 }
+
 interface District {
   district_id: string;
   district_name: string;
 }
+
 interface Block {
   block_id: string;
   block_name: string;
@@ -26,6 +27,17 @@ interface SoilReport {
   OC: { High: number; Medium: number; Low: number; };
   pH: { Acidic: number; Neutral: number; Alkaline: number; };
   timestamp: string;
+}
+
+// API Response types - Remove custom AxiosXHR definition since we're using Axios types
+interface DistrictWithSoilReports {
+  district_name: string;
+  soil_reports?: SoilReport[];
+}
+
+interface BlockWithSoilReports {
+  block_name: string;
+  soil_reports?: SoilReport[];
 }
 
 function getPercent(value: number, obj: { [key: string]: number }) {
@@ -46,16 +58,16 @@ const SoilReportDashboard = () => {
   const [reports, setReports] = useState<SoilReport[]>([]);
 
   useEffect(() => {
-    fetchStates().then((res: any) => setStates(res.data as State[]));
+    fetchStates().then((res) => setStates(res.data as State[]));
   }, []);
 
   useEffect(() => {
     if (selectedState) {
-      fetchDistrictsByState(selectedState).then((res: any) => setDistricts(res.data as District[]));
-      fetchDistrictSoilReportByState(selectedState).then((res: any) => {
-        const districtsData = res.data as any[];
-        const flatReports = districtsData.flatMap((district: any) =>
-          (district.soil_reports || []).map((report: any) => ({
+      fetchDistrictsByState(selectedState).then((res) => setDistricts(res.data as District[]));
+      fetchDistrictSoilReportByState(selectedState).then((res) => {
+        const districtsData = res.data as DistrictWithSoilReports[];
+        const flatReports = districtsData.flatMap((district: DistrictWithSoilReports) =>
+          (district.soil_reports || []).map((report: SoilReport) => ({
             ...report,
             locationName: district.district_name,
           }))
@@ -69,11 +81,11 @@ const SoilReportDashboard = () => {
 
   useEffect(() => {
     if (selectedDistrict) {
-      fetchBlocksByDistrict(selectedDistrict).then((res: any) => setBlocks(res.data as Block[]));
-      fetchBlockSoilReportByDistrict(selectedDistrict).then((res: any) => {
-        const blocksData = (res.data ?? []) as any[];
-        const flatReports = blocksData.flatMap((block: any) =>
-          (block.soil_reports || []).map((report: any) => ({
+      fetchBlocksByDistrict(selectedDistrict).then((res) => setBlocks(res.data as Block[]));
+      fetchBlockSoilReportByDistrict(selectedDistrict).then((res) => {
+        const blocksData = (res.data as BlockWithSoilReports[]) ?? [];
+        const flatReports = blocksData.flatMap((block: BlockWithSoilReports) =>
+          (block.soil_reports || []).map((report: SoilReport) => ({
             ...report,
             locationName: block.block_name,
           }))
