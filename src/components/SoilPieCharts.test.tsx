@@ -1,7 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import SoilPieCharts from './SoilPieCharts';
 import * as api from '../services/api';
-import React from 'react';
 
 // Mock PieChart and useTranslation
 jest.mock('@mui/x-charts', () => ({
