@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { fetchStateSoilReportPie, fetchDistrictSoilReportPie, fetchBlockSoilReportPie } from '../services/api';
 import isEqual from 'lodash.isequal';
 import { PieChart } from '@mui/x-charts';
@@ -18,11 +18,20 @@ interface SoilPieData {
   [key: string]: Record<string, number>;
 }
 
+// Type for the chart data item
+interface ChartDataItem {
+  id: number;
+  value: number;
+  label: string;
+  raw: number;
+  percent: string;
+}
+
 const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
   const { t } = useTranslation();
   const [data, setData] = useState<SoilPieData | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     let res: SoilPieData[] | undefined;
     if (level === 'state') {
       const response = await fetchStateSoilReportPie(String(id));
@@ -37,13 +46,13 @@ const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
 
     const newData = res?.[0];
     setData(prev => (newData && !isEqual(prev, newData) ? newData : prev));
-  };
+  }, [level, id]);
 
   useEffect(() => {
     if (id) {
       fetchData();
     }
-  }, [level, id]);
+  }, [fetchData, id]);
 
   if (!data) return <p className="text-gray-500">{t('charts.loading')}</p>;
 
@@ -54,7 +63,7 @@ const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
       {nutrients.map(nutrient => {
         const values = data[nutrient];
         const total = Object.values(values).reduce((sum, v) => sum + v, 0);
-        const chartData = Object.entries(values).map(([key, value], index) => ({
+        const chartData: ChartDataItem[] = Object.entries(values).map(([key, value], index) => ({
           id: index,
           value,
           label: key,
@@ -69,7 +78,11 @@ const SoilPieCharts: React.FC<SoilPieChartsProps> = ({ level, id }) => {
               series={[
                 {
                   data: chartData,
-                  arcLabel: (item: any) => `${item.percent}%`,
+                  arcLabel: (item) => {
+                    // Calculate percentage from the item's value and total
+                    const percentage = total ? ((item.value / total) * 100).toFixed(1) : '0.0';
+                    return `${percentage}%`;
+                  },
                   arcLabelMinAngle: 10,
                 },
               ]}
