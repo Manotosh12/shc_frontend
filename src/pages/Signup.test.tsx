@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import Signup from './Signup';
 import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
@@ -34,7 +34,10 @@ describe('Signup Page', () => {
 
   it('shows error message on failed signup', async () => {
     mockedAxios.post.mockRejectedValueOnce({
-      response: { data: { message: 'Email already exists' } },
+      isAxiosError: true,
+      response: {
+        data: { message: 'Email already exists' }
+      },
     });
 
     renderWithRouter(<Signup />);
@@ -45,10 +48,9 @@ describe('Signup Page', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
 
-    await waitFor(() => {
-      const errors = screen.getAllByText(/Email already exists/i);
-      expect(errors.length).toBeGreaterThan(0);
-    });
+    // Directly wait for the error message to appear
+    const errorMessage = await screen.findByText(/Email already exists/i);
+    expect(errorMessage).toBeInTheDocument();
   });
 
   it('redirects to login on successful signup', async () => {
@@ -73,9 +75,9 @@ describe('Signup Page', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
 
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Signup successful! Redirecting to login...');
-      expect(mockedNavigate).toHaveBeenCalledWith('/login', { state: { signupSuccess: true } });
-    });
+    await screen.findByText(/Signup successful/i);
+    expect(window.alert).toHaveBeenCalledWith('Signup successful! Redirecting to login...');
+    expect(mockedNavigate).toHaveBeenCalledWith('/login', { state: { signupSuccess: true } });
   });
 });
+
