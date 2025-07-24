@@ -4,9 +4,16 @@ import SoilPieCharts from './SoilPieCharts';
 import * as api from '../services/api';
 
 // Mock PieChart and useTranslation
+type MockPieChartProps = {
+  series: unknown;
+};
+
 jest.mock('@mui/x-charts', () => ({
-  PieChart: (props: any) => <div data-testid="pie-chart">{JSON.stringify(props.series)}</div>,
+  PieChart: ({ series }: MockPieChartProps) => (
+    <div data-testid="pie-chart">{JSON.stringify(series)}</div>
+  ),
 }));
+
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
