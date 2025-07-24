@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchBlocksByDistrict, fetchDistrictsByState, fetchStates } from '../services/api';
 import SoilPieCharts from '../components/SoilPieCharts';
 import SoilReportDashboard from '../components/SoilReportDashboard';
