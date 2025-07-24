@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import SoilReportDashboard from './SoilReportDashboard';
 import * as api from '../services/api';
 
@@ -62,7 +62,10 @@ describe('SoilReportDashboard', () => {
   });
 
   it('renders state dropdown and loads states', async () => {
-    render(<SoilReportDashboard />);
+    await act(async () => {
+      render(<SoilReportDashboard />);
+    });
+
     await waitFor(() => {
       expect(screen.getByText('State 1')).toBeInTheDocument();
       expect(screen.getByText('State 2')).toBeInTheDocument();
@@ -70,7 +73,10 @@ describe('SoilReportDashboard', () => {
   });
 
   it('loads districts and district reports when a state is selected', async () => {
-    render(<SoilReportDashboard />);
+    await act(async () => {
+      render(<SoilReportDashboard />);
+    });
+
     await waitFor(() => expect(screen.getByText('State 1')).toBeInTheDocument());
 
     fireEvent.change(screen.getByDisplayValue('Select a state'), {
@@ -81,17 +87,18 @@ describe('SoilReportDashboard', () => {
       expect(api.fetchDistrictsByState).toHaveBeenCalledWith('1');
       expect(api.fetchDistrictSoilReportByState).toHaveBeenCalledWith('1');
 
-      const districtOptions = screen.getAllByText('District 10');
-      expect(districtOptions.length).toBeGreaterThan(0);
+      expect(screen.getAllByText('District 10').length).toBeGreaterThan(0);
 
-      // Check percentage from soil report
       const nitrogenHigh = screen.getAllByText('33.33%');
       expect(nitrogenHigh.length).toBeGreaterThan(0);
     });
   });
 
   it('loads blocks and block reports when a district is selected', async () => {
-    render(<SoilReportDashboard />);
+    await act(async () => {
+      render(<SoilReportDashboard />);
+    });
+
     await waitFor(() => expect(screen.getByText('State 1')).toBeInTheDocument());
 
     fireEvent.change(screen.getByDisplayValue('Select a state'), {
@@ -110,7 +117,6 @@ describe('SoilReportDashboard', () => {
       expect(api.fetchBlocksByDistrict).toHaveBeenCalledWith('10');
       expect(api.fetchBlockSoilReportByDistrict).toHaveBeenCalledWith('10');
 
-      // Use getAllByText to avoid dropdown + table conflict
       const blockItems = screen.getAllByText('Block 100');
       expect(blockItems.length).toBeGreaterThan(0);
 
@@ -120,7 +126,10 @@ describe('SoilReportDashboard', () => {
   });
 
   it('renders the table headers', async () => {
-    render(<SoilReportDashboard />);
+    await act(async () => {
+      render(<SoilReportDashboard />);
+    });
+
     expect(screen.getByText('Location')).toBeInTheDocument();
     expect(screen.getByText('Nitrogen')).toBeInTheDocument();
     expect(screen.getByText('Phosphorous')).toBeInTheDocument();

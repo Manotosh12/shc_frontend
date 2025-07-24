@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import SoilPieCharts from './SoilPieCharts';
 import * as api from '../services/api';
 
@@ -35,7 +36,10 @@ describe('SoilPieCharts', () => {
   });
 
   it('fetches and displays pie charts for state level', async () => {
-    render(<SoilPieCharts level="state" id="1" />);
+    await act(async () => {
+      render(<SoilPieCharts level="state" id="1" />);
+    });
+
     await waitFor(() => {
       expect(api.fetchStateSoilReportPie).toHaveBeenCalledWith('1');
       expect(screen.getAllByTestId('pie-chart').length).toBeGreaterThan(0);
@@ -48,7 +52,10 @@ describe('SoilPieCharts', () => {
   });
 
   it('fetches and displays pie charts for district level', async () => {
-    render(<SoilPieCharts level="district" id="2" />);
+    await act(async () => {
+      render(<SoilPieCharts level="district" id="2" />);
+    });
+
     await waitFor(() => {
       expect(api.fetchDistrictSoilReportPie).toHaveBeenCalledWith('2');
       expect(screen.getAllByTestId('pie-chart').length).toBeGreaterThan(0);
@@ -56,7 +63,10 @@ describe('SoilPieCharts', () => {
   });
 
   it('fetches and displays pie charts for block level', async () => {
-    render(<SoilPieCharts level="block" id="3" />);
+    await act(async () => {
+      render(<SoilPieCharts level="block" id="3" />);
+    });
+
     await waitFor(() => {
       expect(api.fetchBlockSoilReportPie).toHaveBeenCalledWith('3');
       expect(screen.getAllByTestId('pie-chart').length).toBeGreaterThan(0);

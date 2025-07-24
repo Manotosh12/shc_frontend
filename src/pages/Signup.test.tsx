@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Signup from './Signup';
 import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
@@ -54,30 +54,30 @@ describe('Signup Page', () => {
   });
 
   it('redirects to login on successful signup', async () => {
-    mockedAxios.post.mockResolvedValueOnce({
-      data: {},
-      status: 200,
-      statusText: 'OK',
-      headers: {},
-      config: {
-        url: ''
-      },
-    });
+  mockedAxios.post.mockResolvedValueOnce({
+    data: {},
+    status: 200,
+    statusText: 'OK',
+    headers: {},
+    config: {
+      url: '',
+    },
+  });
 
-    renderWithRouter(<Signup />);
-    fireEvent.change(screen.getByPlaceholderText(/Email/i), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByPlaceholderText(/Password/i), { target: { value: 'password123' } });
-    fireEvent.change(screen.getByPlaceholderText(/Full Name/i), { target: { value: 'Test User' } });
-    fireEvent.change(screen.getByPlaceholderText(/Phone Number/i), { target: { value: '1234567890' } });
+  renderWithRouter(<Signup />);
+  fireEvent.change(screen.getByPlaceholderText(/Email/i), { target: { value: 'test@example.com' } });
+  fireEvent.change(screen.getByPlaceholderText(/Password/i), { target: { value: 'password123' } });
+  fireEvent.change(screen.getByPlaceholderText(/Full Name/i), { target: { value: 'Test User' } });
+  fireEvent.change(screen.getByPlaceholderText(/Phone Number/i), { target: { value: '1234567890' } });
 
-    // Mock window.alert
-    window.alert = jest.fn();
+  // Mock window.alert
+  window.alert = jest.fn();
 
-    fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
+  fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
 
-    await screen.findByText(/Signup successful/i);
+  await waitFor(() => {
     expect(window.alert).toHaveBeenCalledWith('Signup successful! Redirecting to login...');
     expect(mockedNavigate).toHaveBeenCalledWith('/login', { state: { signupSuccess: true } });
   });
 });
-
+})
