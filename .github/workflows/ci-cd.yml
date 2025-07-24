@@ -52,18 +52,7 @@ jobs:
       
     - name: Trigger Render Deploy
       run: |
-        curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+        curl -X POST "${{ secrets.RENDER_FRONTEND_DEPLOY_HOOK }}"
         
     - name: Notify deployment status
       run: echo "Deployment triggered successfully!"
-
-  # Optional: Deploy to staging for develop branch
-  deploy-staging:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-    
-    steps:
-    - name: Deploy to Staging
-      run: |
-        curl -X POST "${{ secrets.RENDER_STAGING_DEPLOY_HOOK }}"
