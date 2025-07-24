@@ -34,31 +34,9 @@ describe('Signup Page', () => {
 
   it('shows error message on failed signup', async () => {
     mockedAxios.post.mockRejectedValueOnce({
-      response: { data: { message: 'Email already exists' } },
-    });
-
-    renderWithRouter(<Signup />);
-    fireEvent.change(screen.getByPlaceholderText(/Email/i), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByPlaceholderText(/Password/i), { target: { value: 'password123' } });
-    fireEvent.change(screen.getByPlaceholderText(/Full Name/i), { target: { value: 'Test User' } });
-    fireEvent.change(screen.getByPlaceholderText(/Phone Number/i), { target: { value: '1234567890' } });
-
-    fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
-
-    await waitFor(() => {
-      const errors = screen.getAllByText(/Email already exists/i);
-      expect(errors.length).toBeGreaterThan(0);
-    });
-  });
-
-  it('redirects to login on successful signup', async () => {
-    mockedAxios.post.mockResolvedValueOnce({
-      data: {},
-      status: 200,
-      statusText: 'OK',
-      headers: {},
-      config: {
-        url: ''
+      isAxiosError: true,
+      response: {
+        data: { message: 'Email already exists' }
       },
     });
 
@@ -68,14 +46,38 @@ describe('Signup Page', () => {
     fireEvent.change(screen.getByPlaceholderText(/Full Name/i), { target: { value: 'Test User' } });
     fireEvent.change(screen.getByPlaceholderText(/Phone Number/i), { target: { value: '1234567890' } });
 
-    // Mock window.alert
-    window.alert = jest.fn();
-
     fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
 
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Signup successful! Redirecting to login...');
-      expect(mockedNavigate).toHaveBeenCalledWith('/login', { state: { signupSuccess: true } });
-    });
+    // Directly wait for the error message to appear
+    const errorMessage = await screen.findByText(/Email already exists/i);
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('redirects to login on successful signup', async () => {
+  mockedAxios.post.mockResolvedValueOnce({
+    data: {},
+    status: 200,
+    statusText: 'OK',
+    headers: {},
+    config: {
+      url: '',
+    },
+  });
+
+  renderWithRouter(<Signup />);
+  fireEvent.change(screen.getByPlaceholderText(/Email/i), { target: { value: 'test@example.com' } });
+  fireEvent.change(screen.getByPlaceholderText(/Password/i), { target: { value: 'password123' } });
+  fireEvent.change(screen.getByPlaceholderText(/Full Name/i), { target: { value: 'Test User' } });
+  fireEvent.change(screen.getByPlaceholderText(/Phone Number/i), { target: { value: '1234567890' } });
+
+  // Mock window.alert
+  window.alert = jest.fn();
+
+  fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
+
+  await waitFor(() => {
+    expect(window.alert).toHaveBeenCalledWith('Signup successful! Redirecting to login...');
+    expect(mockedNavigate).toHaveBeenCalledWith('/login', { state: { signupSuccess: true } });
   });
 });
+})

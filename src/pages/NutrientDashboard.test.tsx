@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import NutrientDashboard from './NutrientDashboard';
 import * as api from '../services/api';
 
@@ -34,7 +34,9 @@ describe('NutrientDashboard', () => {
   });
 
   it('renders dashboard title and tabs', async () => {
-    render(<NutrientDashboard />);
+    await act(async () => {
+      render(<NutrientDashboard />);
+    });
     expect(screen.getByText(/Nutrient Dashboard/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Charts/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Soil Report/i })).toBeInTheDocument();
@@ -42,7 +44,9 @@ describe('NutrientDashboard', () => {
   });
 
   it('renders state dropdown and loads states', async () => {
-    render(<NutrientDashboard />);
+    await act(async () => {
+      render(<NutrientDashboard />);
+    });
     await waitFor(() => {
       expect(screen.getByText('State 1')).toBeInTheDocument();
       expect(screen.getByText('State 2')).toBeInTheDocument();
@@ -50,9 +54,15 @@ describe('NutrientDashboard', () => {
   });
 
   it('loads districts when a state is selected', async () => {
-    render(<NutrientDashboard />);
+    await act(async () => {
+      render(<NutrientDashboard />);
+    });
     await waitFor(() => expect(screen.getByText('State 1')).toBeInTheDocument());
-    fireEvent.change(screen.getByDisplayValue('Select State'), { target: { value: '1' } });
+
+    await act(async () => {
+      fireEvent.change(screen.getByDisplayValue('Select State'), { target: { value: '1' } });
+    });
+
     await waitFor(() => {
       expect(api.fetchDistrictsByState).toHaveBeenCalledWith('1');
       expect(screen.getByText('District 10')).toBeInTheDocument();
@@ -61,11 +71,21 @@ describe('NutrientDashboard', () => {
   });
 
   it('loads blocks when a district is selected', async () => {
-    render(<NutrientDashboard />);
+    await act(async () => {
+      render(<NutrientDashboard />);
+    });
     await waitFor(() => expect(screen.getByText('State 1')).toBeInTheDocument());
-    fireEvent.change(screen.getByDisplayValue('Select State'), { target: { value: '1' } });
+
+    await act(async () => {
+      fireEvent.change(screen.getByDisplayValue('Select State'), { target: { value: '1' } });
+    });
+
     await waitFor(() => expect(screen.getByText('District 10')).toBeInTheDocument());
-    fireEvent.change(screen.getByDisplayValue('Select District'), { target: { value: '10' } });
+
+    await act(async () => {
+      fireEvent.change(screen.getByDisplayValue('Select District'), { target: { value: '10' } });
+    });
+
     await waitFor(() => {
       expect(api.fetchBlocksByDistrict).toHaveBeenCalledWith('10');
       expect(screen.getByText('Block 100')).toBeInTheDocument();
@@ -74,19 +94,37 @@ describe('NutrientDashboard', () => {
   });
 
   it('shows SoilPieCharts when chart tab is active and selection is made', async () => {
-    render(<NutrientDashboard />);
+    await act(async () => {
+      render(<NutrientDashboard />);
+    });
     await waitFor(() => expect(screen.getByText('State 1')).toBeInTheDocument());
-    fireEvent.change(screen.getByDisplayValue('Select State'), { target: { value: '1' } });
+
+    await act(async () => {
+      fireEvent.change(screen.getByDisplayValue('Select State'), { target: { value: '1' } });
+    });
+
     await waitFor(() => expect(screen.getByText('District 10')).toBeInTheDocument());
-    fireEvent.change(screen.getByDisplayValue('Select District'), { target: { value: '10' } });
+
+    await act(async () => {
+      fireEvent.change(screen.getByDisplayValue('Select District'), { target: { value: '10' } });
+    });
+
     await waitFor(() => expect(screen.getByText('Block 100')).toBeInTheDocument());
-    fireEvent.change(screen.getByDisplayValue('Select Block'), { target: { value: '100' } });
+
+    await act(async () => {
+      fireEvent.change(screen.getByDisplayValue('Select Block'), { target: { value: '100' } });
+    });
+
     expect(screen.getByText('SoilPieCharts Component')).toBeInTheDocument();
   });
 
   it('shows SoilReportDashboard when report tab is active', async () => {
-    render(<NutrientDashboard />);
-    fireEvent.click(screen.getByRole('button', { name: /Soil Report/i }));
+    await act(async () => {
+      render(<NutrientDashboard />);
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /Soil Report/i }));
+    });
     expect(screen.getByText('SoilReportDashboard Component')).toBeInTheDocument();
   });
 });
