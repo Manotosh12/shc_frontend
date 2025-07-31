@@ -1,5 +1,8 @@
+import { useTranslation } from 'react-i18next';
 
 const FertilizerRecommendation = () => {
+  const { t } = useTranslation();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
@@ -9,9 +12,9 @@ const FertilizerRecommendation = () => {
       <div className="max-w-5xl mx-auto px-4">
         <div className="bg-white shadow-md">
           {/* Header */}
-          <div className="bg-[#006400] text-white p-3">
+          <div className="bg-[#1e3a8a] text-white p-3">
             <h1 className="text-lg font-semibold text-center">
-              Fertilizer Recommendation System
+              {t('fertilizer.title')}
             </h1>
           </div>
 
@@ -21,20 +24,20 @@ const FertilizerRecommendation = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="relative">
                   <label htmlFor="state" className="block text-sm text-gray-700 mb-1">
-                    State <span className="text-red-500">*</span>
+                    {t('fertilizer.state')} <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
                     <select
                       id="state"
                       name="state"
-                      className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm appearance-none pr-8 cursor-pointer hover:border-green-500 focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none transition-colors"
+                      className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm appearance-none pr-8 cursor-pointer hover:border-blue-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors"
                       required
                     >
-                      <option value="">Select State</option>
+                      <option value="">{t('fertilizer.selectState')}</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                       <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                       </svg>
                     </div>
                   </div>
@@ -42,41 +45,20 @@ const FertilizerRecommendation = () => {
 
                 <div className="relative">
                   <label htmlFor="district" className="block text-sm text-gray-700 mb-1">
-                    District <span className="text-red-500">*</span>
+                    {t('fertilizer.district')} <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
                     <select
                       id="district"
                       name="district"
-                      className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm appearance-none pr-8 cursor-pointer hover:border-green-500 focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none transition-colors"
+                      className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm appearance-none pr-8 cursor-pointer hover:border-blue-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors"
                       required
                     >
-                      <option value="">Select District</option>
+                      <option value="">{t('fertilizer.selectDistrict')}</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                       <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <label htmlFor="crop" className="block text-sm text-gray-700 mb-1">
-                    Crop <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="crop"
-                      name="crop"
-                      className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm appearance-none pr-8 cursor-pointer hover:border-green-500 focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none transition-colors"
-                      required
-                    >
-                      <option value="">Select Crop</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                       </svg>
                     </div>
                   </div>
@@ -89,7 +71,7 @@ const FertilizerRecommendation = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="organicCarbon" className="block text-sm text-gray-700 mb-1">
-                    Available Organic Carbon (OC) (%) <span className="text-red-500">*</span>
+                    {t('fertilizer.oc')} <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="number"
@@ -97,8 +79,8 @@ const FertilizerRecommendation = () => {
                     name="organicCarbon"
                     min="0"
                     step="0.01"
-                    placeholder="Enter OC value"
-                    className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm cursor-text hover:border-green-500 focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none transition-colors placeholder:text-gray-400 [caret-color:green] focus:[caret-color:green] text-gray-900 bg-white"
+                    placeholder={t('fertilizer.ocPlaceholder')}
+                    className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm cursor-text hover:border-blue-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors placeholder:text-gray-400 [caret-color:blue] focus:[caret-color:blue] text-gray-900 bg-white"
                     required
                     autoComplete="off"
                   />
@@ -106,7 +88,7 @@ const FertilizerRecommendation = () => {
 
                 <div>
                   <label htmlFor="nitrogen" className="block text-sm text-gray-700 mb-1">
-                    Available Nitrogen (N) (kg/ha) <span className="text-red-500">*</span>
+                    {t('fertilizer.n')} <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="number"
@@ -114,8 +96,8 @@ const FertilizerRecommendation = () => {
                     name="nitrogen"
                     min="0"
                     step="0.01"
-                    placeholder="Enter N value"
-                    className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm cursor-text hover:border-green-500 focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none transition-colors placeholder:text-gray-400 [caret-color:green] focus:[caret-color:green] text-gray-900 bg-white"
+                    placeholder={t('fertilizer.nPlaceholder')}
+                    className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm cursor-text hover:border-blue-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors placeholder:text-gray-400 [caret-color:blue] focus:[caret-color:blue] text-gray-900 bg-white"
                     required
                     autoComplete="off"
                   />
@@ -123,7 +105,7 @@ const FertilizerRecommendation = () => {
 
                 <div>
                   <label htmlFor="phosphorus" className="block text-sm text-gray-700 mb-1">
-                    Available Phosphorus (P) (kg/ha) <span className="text-red-500">*</span>
+                    {t('fertilizer.p')} <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="number"
@@ -131,8 +113,8 @@ const FertilizerRecommendation = () => {
                     name="phosphorus"
                     min="0"
                     step="0.01"
-                    placeholder="Enter P value"
-                    className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm cursor-text hover:border-green-500 focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none transition-colors placeholder:text-gray-400 [caret-color:green] focus:[caret-color:green] text-gray-900 bg-white"
+                    placeholder={t('fertilizer.pPlaceholder')}
+                    className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm cursor-text hover:border-blue-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors placeholder:text-gray-400 [caret-color:blue] focus:[caret-color:blue] text-gray-900 bg-white"
                     required
                     autoComplete="off"
                   />
@@ -140,7 +122,7 @@ const FertilizerRecommendation = () => {
 
                 <div>
                   <label htmlFor="potassium" className="block text-sm text-gray-700 mb-1">
-                    Available Potassium (K) (kg/ha) <span className="text-red-500">*</span>
+                    {t('fertilizer.k')} <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="number"
@@ -148,8 +130,8 @@ const FertilizerRecommendation = () => {
                     name="potassium"
                     min="0"
                     step="0.01"
-                    placeholder="Enter K value"
-                    className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm cursor-text hover:border-green-500 focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none transition-colors placeholder:text-gray-400 [caret-color:green] focus:[caret-color:green] text-gray-900 bg-white"
+                    placeholder={t('fertilizer.kPlaceholder')}
+                    className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm cursor-text hover:border-blue-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors placeholder:text-gray-400 [caret-color:blue] focus:[caret-color:blue] text-gray-900 bg-white"
                     required
                     autoComplete="off"
                   />
@@ -160,9 +142,9 @@ const FertilizerRecommendation = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-[#22c55e] hover:bg-[#16a34a] text-white px-8 py-2 rounded text-sm font-medium cursor-pointer transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                className="bg-[#1e3a8a] hover:bg-[#1d4ed8] text-white px-8 py-2 rounded text-sm font-medium cursor-pointer transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
               >
-                Get Recommendations
+                {t('fertilizer.submit')}
               </button>
             </div>
           </form>
@@ -172,4 +154,4 @@ const FertilizerRecommendation = () => {
   );
 };
 
-export default FertilizerRecommendation; 
+export default FertilizerRecommendation;

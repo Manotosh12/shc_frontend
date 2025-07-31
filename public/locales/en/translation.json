@@ -1,6 +1,6 @@
 {
   "navbar": {
-    "title": "Soil Health Card",
+    "title": "SoilXpert",
     "links": {
       "home": "Home",
       "about": "About",
@@ -20,7 +20,7 @@
   "hero": {
     "ariaLabel": "Hero Section",
     "title": "Empowering Farmers with Soil Intelligence",
-    "description": "Get accurate insights into your soil's health and receive the best fertilizer recommendations for sustainable farming.",
+    "description": "Precision farming starts with healthy soil.",
     "buttons": {
       "nutrientDashboard": "View Nutrient Dashboard",
       "fertilizerRecommendation": "Get Fertilizer Recommendations"
@@ -32,7 +32,7 @@
     "tagline": "Soil Insight, Smarter Farming",
 
     "intro": {
-      "p1": "The Soil Health Card Dashboard is designed to provide farmers and agricultural staff with region-wise insights into soil conditions. It offers rich data on nutrient availability, soil quality indicators, and recommended chemical inputs.",
+      "p1": "The SoilXpert Dashboard is designed to provide farmers and agricultural staff with region-wise insights into soil conditions. It offers rich data on nutrient availability, soil quality indicators, and recommended chemical inputs.",
       "p2": "This initiative aims to enhance agricultural decisions and promote data-driven farming practices. The dashboard includes graphical analysis, map-based views, and summary information for informed actions."
     },
 
@@ -98,28 +98,52 @@
 
     "noContacts": "No contact information available for"
   },
-  "nutrientDashboard": {
-    "title": "Nutrient Dashboard",
-    "charts": "Charts",
-    "soilReport": "Soil Report",
+  "auth": {
+  "signup": "Signup",
+  "login": "Login",
+  "logout": "Logout"
+  },
+
+"signup": {
+  "heading": "Sign Up",
+  "email": "Email",
+  "password": "Password",
+  "name": "Full Name",
+  "phone": "Phone Number",
+  "submit": "Sign Up",
+  "loading": "Signing Up...",
+  "successMessage": "Signup successful! Redirecting to login...",
+  "errorMessage": "Signup failed. Please try again."
+},
+  "nutrient": {
+    "title": "Nutrient Dashboard"
+  },
+  "tabs": {
+    "chart": "Charts",
+    "report": "Soil Report"
+  },
+  "filters": {
     "selectState": "Select State",
     "selectDistrict": "Select District",
     "selectBlock": "Select Block"
   },
-"fertilizer": {
-  "heading": "Fertilizer Recommendation Form",
-  "state": "State",
-  "district": "District",
-  "crop": "Crop",
-  "selectState": "Select State",
-  "selectDistrict": "Select District",
-  "selectCrop": "Select Crop",
-  "oc": "Organic Carbon (%)",
-  "n": "Nitrogen (kg/ha)",
-  "p": "Phosphorus (kg/ha)",
-  "k": "Potassium (kg/ha)",
-  "button": "Get Recommendation"
-},
+
+  "fertilizer": {
+    "title": "Fertilizer Recommendation System",
+    "state": "State",
+    "district": "District",
+    "selectState": "Select State",
+    "selectDistrict": "Select District",
+    "oc": "Available Organic Carbon (OC) (%)",
+    "n": "Available Nitrogen (N) (kg/ha)",
+    "p": "Available Phosphorus (P) (kg/ha)",
+    "k": "Available Potassium (K) (kg/ha)",
+    "ocPlaceholder": "Enter OC value",
+    "nPlaceholder": "Enter N value",
+    "pPlaceholder": "Enter P value",
+    "kPlaceholder": "Enter K value",
+    "submit": "Get Recommendations"
+  },
 "charts": {
   "loading": "Loading soil nutrient data..."
 },
@@ -138,7 +162,7 @@
   "noData": "No data available."
 },
 "footer": {
-  "title": "Soil Health Card",
+  "title": "SoilXpert",
   "quickLinks": {
     "title": "Quick Links",
     "home": "Home",
@@ -148,23 +172,15 @@
   },
   "importantLinks": {
     "title": "Important Links",
-    "shc": "Soil Health Card Portal",
     "calculator": "Fertilizer Calculator",
-    "calendar": "Crop Calendar",
     "weather": "Weather Advisory"
   },
   "contact": {
     "title": "Contact Us",
-    "address": "Krishi Bhavan, New Delhi - 110001",
-    "phone": "+91-11-23381092",
-    "email": "info@soilhealth.gov.in"
-  },
-  "links": {
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "disclaimer": "Disclaimer"
-  },
-  "copyright": "© 2025 Soil Health Card. All rights reserved."
+    "address": "XYZ",
+    "phone": "+91-xxxxxxxxxx",
+    "email": "XXXXXX@gmail.com"
+  }
 }
 }
 
