@@ -1,12 +1,10 @@
 import "@testing-library/jest-dom";
-
 import { TextEncoder, TextDecoder } from "util";
-(global as any).TextEncoder = TextEncoder;
-(global as any).TextDecoder = TextDecoder as any;
 
-// ✅ Mock process.env for tests
-(globalThis as any).process = {
-  env: {
-    VITE_API_URL: "http://localhost:3000",
-  },
-};
+// ✅ Assign polyfills
+(global as unknown as { TextEncoder: typeof TextEncoder }).TextEncoder = TextEncoder;
+(global as unknown as { TextDecoder: typeof TextDecoder }).TextDecoder = TextDecoder;
+
+// ✅ Safely set env variable without redeclaring process
+process.env.VITE_API_URL = "http://localhost:3000";
+
