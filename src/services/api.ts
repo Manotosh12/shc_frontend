@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://soil-health-card-tz26.onrender.com',
 });
 export { api };
 
@@ -20,3 +20,5 @@ export const fetchDistrictSoilReportPie = (districtId: string) =>
   api.get(`/soil-report-districtwise/district/${districtId}`);
 export const fetchBlockSoilReportPie = (blockId: string) =>
   api.get(`/soil-report-blockwise/block/${blockId}`);
+
+
