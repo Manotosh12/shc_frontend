@@ -31,7 +31,7 @@ const ContactUs = () => {
       <div className="px-4 md:px-12">
         {/* Heading */}
         <div className="text-center mb-10">
-          <h1 className="text-2xl font-extrabold bg-green-700 text-white py-2 px-4 rounded-xl shadow-md inline-block">
+          <h1 className="text-xl font-bold bg-blue-400 text-white py-1 px-2 rounded-xl shadow-md inline-block">
             {t('contact.heading')}
           </h1>
         </div>
@@ -43,8 +43,8 @@ const ContactUs = () => {
               key={cat}
               className={`px-6 py-2 rounded-full text-sm font-semibold shadow transition duration-300 ${
                 activeTab === cat
-                  ? 'bg-green-700 text-white'
-                  : 'bg-green-100 text-green-900 hover:bg-green-200'
+                  ? 'bg-blue-400 text-white'
+                  : 'bg-blue-100 text-green-900 hover:bg-blue-200'
               }`}
               onClick={() => setActiveTab(cat)}
             >
@@ -56,7 +56,7 @@ const ContactUs = () => {
         {/* Contacts Table */}
         <div className="overflow-x-auto rounded-xl shadow-lg bg-white">
           <table className="w-full text-left border-collapse">
-            <thead className="bg-green-200 text-green-900">
+            <thead className="bg-blue-200 text-green-900">
               <tr>
                 <th className="px-6 py-3">{t('contact.table.name')}</th>
                 <th className="px-6 py-3">{t('contact.table.designation')}</th>

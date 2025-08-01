@@ -6,10 +6,9 @@ const Footer: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-gradient-to-b from-[#1a4d2e] to-[#0f2d1a] text-white">
-      <div className="h-0.5 bg-gradient-to-r from-green-400 via-green-500 to-green-400"></div>
-
-      <div className="container mx-auto px-4 py-6">
+  <footer className="bg-gradient-to-b from-blue-800 to-blue-800 text-white">
+  <div className="h-0.5 bg-blue-800"></div>
+   <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Logo and Title */}
           <div className="flex items-center gap-3">
@@ -32,9 +31,7 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-sm font-semibold mb-2 text-green-300">{t('footer.importantLinks.title')}</h3>
             <ul className="space-y-1.5 text-sm text-gray-300">
-              <li>{t('footer.importantLinks.shc')}</li>
               <li>{t('footer.importantLinks.calculator')}</li>
-              <li>{t('footer.importantLinks.calendar')}</li>
               <li>{t('footer.importantLinks.weather')}</li>
             </ul>
           </div>
@@ -68,14 +65,6 @@ const Footer: React.FC = () => {
 
       <div className="border-t border-white/10">
         <div className="container mx-auto px-4 py-3">
-          <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-300">
-            <p>{t('footer.copyright')}</p>
-            <div className="flex flex-wrap justify-center gap-3 mt-2 md:mt-0">
-              <a href="#" className="hover:text-green-400 transition-colors">{t('footer.links.privacy')}</a>
-              <a href="#" className="hover:text-green-400 transition-colors">{t('footer.links.terms')}</a>
-              <a href="#" className="hover:text-green-400 transition-colors">{t('footer.links.disclaimer')}</a>
-            </div>
-          </div>
         </div>
       </div>
     </footer>

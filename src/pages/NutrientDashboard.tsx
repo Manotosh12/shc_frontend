@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { fetchBlocksByDistrict, fetchDistrictsByState, fetchStates } from '../services/api';
 import SoilPieCharts from '../components/SoilPieCharts';
 import SoilReportDashboard from '../components/SoilReportDashboard';
@@ -8,6 +9,7 @@ type DistrictType = { district_id: string; district_name: string };
 type BlockType = { block_id: string; block_name: string };
 
 const NutrientDashboard = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'chart' | 'report'>('chart');
   const [states, setStates] = useState<StateType[]>([]);
   const [districts, setDistricts] = useState<DistrictType[]>([]);
@@ -37,7 +39,6 @@ const NutrientDashboard = () => {
     }
   }, [selectedDistrict]);
 
-  // Determine which level to display
   let level: 'state' | 'district' | 'block' = 'state';
   let selectedId = '';
 
@@ -54,25 +55,25 @@ const NutrientDashboard = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6 text-green-700">Nutrient Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6 text-black-700">{t('nutrient.title')}</h1>
 
       {/* Tab Switcher */}
       <div className="flex gap-4 mb-6">
         <button
-          className={`px-4 py-2 rounded font-semibold ${activeTab === 'chart' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+          className={`px-4 py-2 rounded font-semibold ${activeTab === 'chart' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
           onClick={() => setActiveTab('chart')}
         >
-          Charts
+          {t('tabs.chart')}
         </button>
         <button
-          className={`px-4 py-2 rounded font-semibold ${activeTab === 'report' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+          className={`px-4 py-2 rounded font-semibold ${activeTab === 'report' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
           onClick={() => setActiveTab('report')}
         >
-          Soil Report
+          {t('tabs.report')}
         </button>
       </div>
 
-      {/* Filter Dropdowns (only for charts, remove if you want for both) */}
+      {/* Filter Dropdowns */}
       {activeTab === 'chart' && (
         <div className="flex gap-4 mb-6">
           <select
@@ -80,7 +81,7 @@ const NutrientDashboard = () => {
             onChange={e => setSelectedState(e.target.value)}
             className="p-2 border rounded"
           >
-            <option value="">Select State</option>
+            <option value="">{t('filters.selectState')}</option>
             {states.map(state => (
               <option key={state.state_id} value={state.state_id}>{state.state_name}</option>
             ))}
@@ -92,7 +93,7 @@ const NutrientDashboard = () => {
               onChange={e => setSelectedDistrict(e.target.value)}
               className="p-2 border rounded"
             >
-              <option value="">Select District</option>
+              <option value="">{t('filters.selectDistrict')}</option>
               {districts.map(dist => (
                 <option key={dist.district_id} value={dist.district_id}>{dist.district_name}</option>
               ))}
@@ -105,7 +106,7 @@ const NutrientDashboard = () => {
               onChange={e => setSelectedBlock(e.target.value)}
               className="p-2 border rounded"
             >
-              <option value="">Select Block</option>
+              <option value="">{t('filters.selectBlock')}</option>
               {blocks.map(block => (
                 <option key={block.block_id} value={block.block_id}>{block.block_name}</option>
               ))}

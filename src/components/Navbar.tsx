@@ -19,7 +19,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="bg-green-700 text-white fixed top-0 left-0 right-0 z-50 shadow-md">
+      <header className="bg-blue-800 text-white fixed top-0 left-0 right-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center gap-3" tabIndex={0}>
