@@ -6,8 +6,8 @@ const Footer: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-   <footer className="bg-gradient-to-b from-[#1e3a8a] to-[#1e40af] text-white">
-  <div className="h-0.5 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-400"></div>
+  <footer className="bg-gradient-to-b from-blue-800 to-blue-800 text-white">
+  <div className="h-0.5 bg-blue-800"></div>
    <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Logo and Title */}

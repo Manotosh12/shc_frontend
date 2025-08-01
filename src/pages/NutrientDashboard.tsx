@@ -55,18 +55,18 @@ const NutrientDashboard = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6 text-green-700">{t('nutrient.title')}</h1>
+      <h1 className="text-3xl font-bold mb-6 text-black-700">{t('nutrient.title')}</h1>
 
       {/* Tab Switcher */}
       <div className="flex gap-4 mb-6">
         <button
-          className={`px-4 py-2 rounded font-semibold ${activeTab === 'chart' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+          className={`px-4 py-2 rounded font-semibold ${activeTab === 'chart' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
           onClick={() => setActiveTab('chart')}
         >
           {t('tabs.chart')}
         </button>
         <button
-          className={`px-4 py-2 rounded font-semibold ${activeTab === 'report' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+          className={`px-4 py-2 rounded font-semibold ${activeTab === 'report' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
           onClick={() => setActiveTab('report')}
         >
           {t('tabs.report')}

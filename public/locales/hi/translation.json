@@ -128,26 +128,32 @@
     "selectBlock": "ब्लॉक चुनें"
   },
   "fertilizer": {
-    "title": "उर्वरक सिफारिश प्रणाली",
-    "state": "राज्य",
-    "district": "जिला",
-    "selectState": "राज्य चुनें",
-    "selectDistrict": "जिला चुनें",
-    "oc": "उपलब्ध कार्बनिक कार्बन (OC) (%)",
-    "n": "उपलब्ध नाइट्रोजन (N) (कि.ग्रा./हेक्टेयर)",
-    "p": "उपलब्ध फॉस्फोरस (P) (कि.ग्रा./हेक्टेयर)",
-    "k": "उपलब्ध पोटेशियम (K) (कि.ग्रा./हेक्टेयर)",
-    "ocPlaceholder": "OC मान दर्ज करें",
-    "nPlaceholder": "N मान दर्ज करें",
-    "pPlaceholder": "P मान दर्ज करें",
-    "kPlaceholder": "K मान दर्ज करें",
-    "submit": "सिफारिश प्राप्त करें"
-  
+    "title": "उर्वरक सिफारिश",
+    "submit": "जमा करें",
+    "main": "मुख्य उर्वरक",
+    "alternative": "वैकल्पिक उर्वरक",
+    "organic": "जैविक संशोधन",
+    "ph": "pH",
+    "nitrogen": "नाइट्रोजन",
+    "phosphorus": "फॉस्फोरस",
+    "potassium": "पोटेशियम",
+    "organicCarbon": "जैविक कार्बन",
+    "soilPH": "मिट्टी का pH",
+    "low": "कम",
+    "medium": "मध्यम",
+    "high": "अधिक",
+    "acidic": "अम्लीय",
+    "neutral": "तटस्थ",
+    "alkaline": "क्षारीय",
+    "quantity": "मात्रा",
+    "provides": "प्रदान करता है",
+    "name": "नाम",
+    "resultTitle": "उर्वरक सिफारिश के परिणाम"
 },
 "charts": {
   "loading": "मिट्टी पोषक तत्व डेटा लोड हो रहा है..."
 },
-"soilReportDashboard": {
+"Nutrient Dashboard": {
   "title": "मृदा रिपोर्ट डैशबोर्ड",
   "selectState": "राज्य चुनें",
   "selectDistrict": "जिला चुनें",
@@ -162,7 +168,7 @@
   "noData": "कोई डेटा उपलब्ध नहीं है।"
 },
 "footer": {
-  "title": "मृदा स्वास्थ्य कार्ड",
+  "title": "सॉइलएक्सपर्ट",
   "quickLinks": {
     "title": "त्वरित लिंक",
     "home": "होम",

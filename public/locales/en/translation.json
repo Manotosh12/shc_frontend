@@ -127,28 +127,34 @@
     "selectDistrict": "Select District",
     "selectBlock": "Select Block"
   },
-
   "fertilizer": {
-    "title": "Fertilizer Recommendation System",
-    "state": "State",
-    "district": "District",
-    "selectState": "Select State",
-    "selectDistrict": "Select District",
-    "oc": "Available Organic Carbon (OC) (%)",
-    "n": "Available Nitrogen (N) (kg/ha)",
-    "p": "Available Phosphorus (P) (kg/ha)",
-    "k": "Available Potassium (K) (kg/ha)",
-    "ocPlaceholder": "Enter OC value",
-    "nPlaceholder": "Enter N value",
-    "pPlaceholder": "Enter P value",
-    "kPlaceholder": "Enter K value",
-    "submit": "Get Recommendations"
+    "title": "Fertilizer Recommendation",
+    "submit": "Submit",
+    "main": "Main Fertilizers",
+    "alternative": "Alternative Fertilizers",
+    "organic": "Organic Amendment",
+    "ph": "pH",
+    "nitrogen": "Nitrogen",
+    "phosphorus": "Phosphorus",
+    "potassium": "Potassium",
+    "organicCarbon": "Organic Carbon",
+    "Ph": "pH",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "acidic": "Acidic",
+    "neutral": "Neutral",
+    "alkaline": "Alkaline",
+    "quantity": "Quantity",
+    "provides": "Provides",
+    "name": "Name",
+    "resultTitle": "Fertilizer Recommendation Results"
   },
 "charts": {
   "loading": "Loading soil nutrient data..."
 },
-"soilReportDashboard": {
-  "title": "Soil Report Dashboard",
+"Nutrient Dashboard": {
+  "title": "Nutrient Dashboard",
   "selectState": "Select State",
   "selectDistrict": "Select District",
   "selectBlock": "Select Block",

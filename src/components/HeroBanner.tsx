@@ -14,7 +14,7 @@ const HeroBanner = () => {
           <div className="space-y-6 animate-fadeIn">
             <h1
               tabIndex={0}
-              className="text-5xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-900 to-green-900 drop-shadow-lg tracking-tight"
+              className="text-5xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r text-white drop-shadow-lg tracking-tight"
             >
               {t('hero.title')}
             </h1>
