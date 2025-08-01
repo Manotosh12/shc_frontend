@@ -4,18 +4,21 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  
+
   "compilerOptions": {
     "target": "es6",
-    "module": "commonjs",
+    "module": "esnext", // ✅ Important for import.meta
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": ["vite/client", "jest", "node"] // ✅ Added node & jest
   }
 }
+
+
 
 
