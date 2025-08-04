@@ -20,3 +20,5 @@ export const fetchDistrictSoilReportPie = (districtId: string) =>
   api.get(`/soil-report-districtwise/district/${districtId}`);
 export const fetchBlockSoilReportPie = (blockId: string) =>
   api.get(`/soil-report-blockwise/block/${blockId}`);
+
+
