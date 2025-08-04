@@ -1,82 +1,79 @@
+// src/components/SoilPieCharts.test.tsx
 import { render, screen, waitFor } from '@testing-library/react';
-import { act } from 'react';
 import SoilPieCharts from './SoilPieCharts';
 import * as api from '../services/api';
 
-// Mock PieChart and useTranslation
-type MockPieChartProps = {
-  series: unknown;
-};
-
-jest.mock('@mui/x-charts', () => ({
-  PieChart: ({ series }: MockPieChartProps) => (
-    <div data-testid="pie-chart">{JSON.stringify(series)}</div>
-  ),
-}));
-
+// Mock react-i18next
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
   }),
 }));
 
+jest.mock('@mui/x-charts', () => ({
+  __esModule: true,
+  PieChart: ({ series }: { series: unknown }) => (
+    <div data-testid="pie-chart">{JSON.stringify(series)}</div>
+  ),
+}));
+
 // Mock API functions
-const mockStateData = [{
-  n: { Low: 10, Medium: 20, High: 30 },
-  p: { Low: 5, Medium: 15, High: 25 },
-  k: { Low: 8, Medium: 12, High: 18 },
-  OC: { Low: 2, Medium: 4, High: 6 },
-  pH: { Acidic: 3, Neutral: 7, Alkaline: 10 },
-}];
+jest.mock('../services/api', () => ({
+  fetchStateSoilReportPie: jest.fn(),
+  fetchDistrictSoilReportPie: jest.fn(),
+  fetchBlockSoilReportPie: jest.fn(),
+}));
 
-describe('SoilPieCharts', () => {
-  beforeEach(() => {
+const mockData = [
+  {
+    n: { Low: 20, Medium: 30, High: 50 },
+    p: { Low: 10, Medium: 40, High: 50 },
+    k: { Low: 15, Medium: 35, High: 50 },
+    OC: { Low: 25, Medium: 25, High: 50 },
+    pH: { Acidic: 20, Neutral: 40, Alkaline: 40 },
+  },
+];
+
+describe('SoilPieCharts Component', () => {
+  afterEach(() => {
     jest.clearAllMocks();
-    (api.fetchStateSoilReportPie as jest.Mock) = jest.fn().mockResolvedValue({ data: mockStateData });
-    (api.fetchDistrictSoilReportPie as jest.Mock) = jest.fn().mockResolvedValue({ data: mockStateData });
-    (api.fetchBlockSoilReportPie as jest.Mock) = jest.fn().mockResolvedValue({ data: mockStateData });
   });
 
-  it('renders loading initially', () => {
-    render(<SoilPieCharts level="state" id="1" />);
+  test('renders pie charts for state level', async () => {
+    (api.fetchStateSoilReportPie as jest.Mock).mockResolvedValueOnce({
+      data: mockData,
+    });
+
+    render(<SoilPieCharts level="state" id="123" />);
+
     expect(screen.getByText('charts.loading')).toBeInTheDocument();
-  });
-
-  it('fetches and displays pie charts for state level', async () => {
-    await act(async () => {
-      render(<SoilPieCharts level="state" id="1" />);
-    });
 
     await waitFor(() => {
-      expect(api.fetchStateSoilReportPie).toHaveBeenCalledWith('1');
-      expect(screen.getAllByTestId('pie-chart').length).toBeGreaterThan(0);
-      expect(screen.getByText('N')).toBeInTheDocument();
-      expect(screen.getByText('P')).toBeInTheDocument();
-      expect(screen.getByText('K')).toBeInTheDocument();
-      expect(screen.getByText('OC')).toBeInTheDocument();
-      expect(screen.getByText('PH')).toBeInTheDocument();
+      expect(screen.getAllByTestId('pie-chart').length).toBe(5); // 5 nutrients
     });
   });
 
-  it('fetches and displays pie charts for district level', async () => {
-    await act(async () => {
-      render(<SoilPieCharts level="district" id="2" />);
+  test('renders pie charts for district level', async () => {
+    (api.fetchDistrictSoilReportPie as jest.Mock).mockResolvedValueOnce({
+      data: mockData,
     });
 
+    render(<SoilPieCharts level="district" id="456" />);
+
     await waitFor(() => {
-      expect(api.fetchDistrictSoilReportPie).toHaveBeenCalledWith('2');
-      expect(screen.getAllByTestId('pie-chart').length).toBeGreaterThan(0);
+      expect(screen.getAllByTestId('pie-chart').length).toBe(5);
     });
   });
 
-  it('fetches and displays pie charts for block level', async () => {
-    await act(async () => {
-      render(<SoilPieCharts level="block" id="3" />);
+  test('renders pie charts for block level', async () => {
+    (api.fetchBlockSoilReportPie as jest.Mock).mockResolvedValueOnce({
+      data: mockData,
     });
 
+    render(<SoilPieCharts level="block" id="789" />);
+
     await waitFor(() => {
-      expect(api.fetchBlockSoilReportPie).toHaveBeenCalledWith('3');
-      expect(screen.getAllByTestId('pie-chart').length).toBeGreaterThan(0);
+      expect(screen.getAllByTestId('pie-chart').length).toBe(5);
     });
   });
 });

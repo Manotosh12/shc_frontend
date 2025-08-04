@@ -2,6 +2,19 @@ import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import axios from 'axios';
 
+interface Fertilizer {
+  name: string;
+  quantity: string;
+  provides: string;
+}
+
+interface RecommendationResult {
+  main_fertilizers: Fertilizer[];
+  alternative_fertilizers: Fertilizer[];
+  organic: string;
+  ph_correction: string;
+}
+
 const FertilizerRecommendation = () => {
   const { t } = useTranslation();
 
@@ -13,7 +26,7 @@ const FertilizerRecommendation = () => {
     phAcidic: '', phNeutral: '', phAlkaline: '',
   });
 
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<RecommendationResult | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,7 +63,7 @@ const FertilizerRecommendation = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/recommendation', requestBody);
+      const response = await axios.post<RecommendationResult>('http://localhost:3000/recommendation', requestBody);
       setResult(response.data);
     } catch (error) {
       console.error('Error fetching recommendation:', error);
@@ -89,7 +102,6 @@ const FertilizerRecommendation = () => {
         {renderInputGroup(t('fertilizer.organicCarbon'), ['Low', 'Medium', 'High'], 'oc')}
         {renderInputGroup(t('fertilizer.ph'), ['Acidic', 'Neutral', 'Alkaline'], 'ph')}
 
-
         <button
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-sm font-semibold"
@@ -106,7 +118,7 @@ const FertilizerRecommendation = () => {
           <div>
             <strong>Main Fertilizers:</strong>
             <ul className="list-disc ml-5">
-              {result.main_fertilizers.map((f: any, idx: number) => (
+              {result.main_fertilizers.map((f, idx) => (
                 <li key={idx}>{`${f.name} - ${f.quantity} (${f.provides})`}</li>
               ))}
             </ul>
@@ -114,7 +126,7 @@ const FertilizerRecommendation = () => {
           <div>
             <strong>Alternative Fertilizers:</strong>
             <ul className="list-disc ml-5">
-              {result.alternative_fertilizers.map((f: any, idx: number) => (
+              {result.alternative_fertilizers.map((f, idx) => (
                 <li key={idx}>{`${f.name} - ${f.quantity} (${f.provides})`}</li>
               ))}
             </ul>

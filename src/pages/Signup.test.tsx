@@ -5,7 +5,9 @@ import Signup from './Signup';
 import axios from 'axios';
 import { BrowserRouter } from 'react-router-dom';
 
-
+beforeAll(() => {
+  window.alert = jest.fn();
+});
 // Mock useNavigate
 const mockedUsedNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({

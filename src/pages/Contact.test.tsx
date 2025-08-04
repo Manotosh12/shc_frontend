@@ -1,5 +1,5 @@
-
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { act } from 'react';
 import '@testing-library/jest-dom';
 
 import { api } from '../services/api';
@@ -37,7 +37,9 @@ describe('ContactUs Component', () => {
   });
 
   it('renders banner image and heading', async () => {
-    render(<ContactUs />);
+    await act(async () => {
+      render(<ContactUs />);
+    });
 
     expect(screen.getByRole('img')).toHaveAttribute('src', '/Contact.jpg');
     expect(screen.getByText('contact.heading')).toBeInTheDocument();
@@ -47,8 +49,11 @@ describe('ContactUs Component', () => {
     });
   });
 
-  it('displays table headers', () => {
-    render(<ContactUs />);
+  it('displays table headers', async () => {
+    await act(async () => {
+      render(<ContactUs />);
+    });
+
     expect(screen.getByText('contact.table.name')).toBeInTheDocument();
     expect(screen.getByText('contact.table.designation')).toBeInTheDocument();
     expect(screen.getByText('contact.table.phone')).toBeInTheDocument();
@@ -56,9 +61,11 @@ describe('ContactUs Component', () => {
   });
 
   it('switches tabs and reloads contacts', async () => {
-    render(<ContactUs />);
-    const nicTab = screen.getByText('contact.tabs.NIC');
+    await act(async () => {
+      render(<ContactUs />);
+    });
 
+    const nicTab = screen.getByText('contact.tabs.NIC');
     fireEvent.click(nicTab);
 
     await waitFor(() => {
@@ -67,15 +74,17 @@ describe('ContactUs Component', () => {
   });
 
   it('shows no contacts message when list is empty', async () => {
-  (api.get as jest.Mock).mockResolvedValueOnce({ data: [] });
-  render(<ContactUs />);
+    (api.get as jest.Mock).mockResolvedValueOnce({ data: [] });
 
-  await waitFor(() => {
-    const message = screen.getByText((content) =>
-      content.includes('contact.noContacts')
-    );
-    expect(message).toBeInTheDocument();
+    await act(async () => {
+      render(<ContactUs />);
+    });
 
+    await waitFor(() => {
+      const message = screen.getByText((content) =>
+        content.includes('contact.noContacts')
+      );
+      expect(message).toBeInTheDocument();
     });
   });
 });
