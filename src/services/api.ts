@@ -5,6 +5,28 @@ const api = axios.create({
 });
 export { api };
 
+// Interfaces
+export interface NutrientLevels {
+  Low: number;
+  Medium: number;
+  High: number;
+}
+
+export interface PhLevels {
+  Acidic: number;
+  Neutral: number;
+  Alkaline: number;
+}
+
+export interface FertilizerRecommendationRequest {
+  n: NutrientLevels;
+  p: NutrientLevels;
+  k: NutrientLevels;
+  OC: NutrientLevels;
+  pH: PhLevels;
+}
+
+// API Endpoints
 export const fetchStates = () => api.get('/states');
 export const fetchDistrictsByState = (stateId: string) => api.get(`/districts/state/${stateId}`);
 export const fetchBlocksByDistrict = (districtId: string) => api.get(`/blocks/district/${districtId}`);
@@ -20,7 +42,6 @@ export const fetchDistrictSoilReportPie = (districtId: string) =>
   api.get(`/soil-report-districtwise/district/${districtId}`);
 export const fetchBlockSoilReportPie = (blockId: string) =>
   api.get(`/soil-report-blockwise/block/${blockId}`);
-export const getFertilizerRecommendation = (data: any) =>
+
+export const getFertilizerRecommendation = (data: FertilizerRecommendationRequest) =>
   api.post('/recommendation', data);
-
-

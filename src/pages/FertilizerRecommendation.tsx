@@ -1,11 +1,32 @@
-import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getFertilizerRecommendation } from '../services/api';
 
-const FertilizerRecommendation = () => {
+interface Fertilizer {
+  name: string;
+  quantity: string;
+  provides: string;
+}
+
+interface RecommendationResult {
+  main_fertilizers: Fertilizer[];
+  alternative_fertilizers: Fertilizer[];
+  organic: string;
+  ph_correction: string;
+}
+
+interface FormData {
+  nLow: string; nMedium: string; nHigh: string;
+  pLow: string; pMedium: string; pHigh: string;
+  kLow: string; kMedium: string; kHigh: string;
+  ocLow: string; ocMedium: string; ocHigh: string;
+  phAcidic: string; phNeutral: string; phAlkaline: string;
+}
+
+const FertilizerRecommendation: React.FC = () => {
   const { t } = useTranslation();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     nLow: '', nMedium: '', nHigh: '',
     pLow: '', pMedium: '', pHigh: '',
     kLow: '', kMedium: '', kHigh: '',
@@ -13,14 +34,16 @@ const FertilizerRecommendation = () => {
     phAcidic: '', phNeutral: '', phAlkaline: '',
   });
 
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<RecommendationResult | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const requestBody = {
       n: {
         Low: parseFloat(formData.nLow || '0'),
@@ -66,7 +89,7 @@ const FertilizerRecommendation = () => {
             key={key}
             type="number"
             name={`${prefix}${key}`}
-            value={formData[`${prefix}${key}` as keyof typeof formData]}
+            value={formData[`${prefix}${key}` as keyof FormData]}
             onChange={handleChange}
             placeholder={key}
             className="border rounded px-2 py-1 text-sm"
@@ -89,7 +112,6 @@ const FertilizerRecommendation = () => {
         {renderInputGroup(t('fertilizer.organicCarbon'), ['Low', 'Medium', 'High'], 'oc')}
         {renderInputGroup(t('fertilizer.ph'), ['Acidic', 'Neutral', 'Alkaline'], 'ph')}
 
-
         <button
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-sm font-semibold"
@@ -106,7 +128,7 @@ const FertilizerRecommendation = () => {
           <div>
             <strong>Main Fertilizers:</strong>
             <ul className="list-disc ml-5">
-              {result.main_fertilizers.map((f: any, idx: number) => (
+              {result.main_fertilizers.map((f: Fertilizer, idx: number) => (
                 <li key={idx}>{`${f.name} - ${f.quantity} (${f.provides})`}</li>
               ))}
             </ul>
@@ -114,7 +136,7 @@ const FertilizerRecommendation = () => {
           <div>
             <strong>Alternative Fertilizers:</strong>
             <ul className="list-disc ml-5">
-              {result.alternative_fertilizers.map((f: any, idx: number) => (
+              {result.alternative_fertilizers.map((f: Fertilizer, idx: number) => (
                 <li key={idx}>{`${f.name} - ${f.quantity} (${f.provides})`}</li>
               ))}
             </ul>
