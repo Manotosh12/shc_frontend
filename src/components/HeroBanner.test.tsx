@@ -7,13 +7,31 @@ import i18n from '../i18nTestConfig';
 
 
 describe('HeroBanner Component', () => {
-  beforeEach(() => {
+  const originalLocation = window.location;
+
+  beforeAll(() => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: {
+        href: '',
+        assign: jest.fn(),
+      },
+    });
+  });
+
+  afterAll(() => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: originalLocation,
+    });
+  });
+
+  test('renders HeroBanner with translated text', () => {
     render(
       <I18nextProvider i18n={i18n}>
         <HeroBanner />
       </I18nextProvider>
     );
-  });
 
   it('renders the translated hero title', () => {
     expect(
