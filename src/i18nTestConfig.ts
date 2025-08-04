@@ -1,0 +1,200 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
+void i18n.use(initReactI18next).init({
+  lng: 'en',
+  fallbackLng: 'en',
+  debug: false,
+  resources: {
+    en: {
+      translation: {
+        navbar: {
+          title: 'SoilXpert',
+          links: {
+            home: 'Home',
+            about: 'About',
+            services: 'Services',
+            contact: 'Contact',
+          },
+          login: {
+            button: 'Login',
+            title: 'Login to your account',
+            subtitle: 'Enter your credentials to continue',
+            username: 'Username',
+            password: 'Password',
+            cancel: 'Cancel',
+            submit: 'Submit',
+          },
+        },
+        hero: {
+          ariaLabel: 'Hero Section',
+          title: 'Empowering Farmers with Soil Intelligence',
+          description: 'Precision farming starts with healthy soil.',
+          buttons: {
+            nutrientDashboard: 'View Nutrient Dashboard',
+            fertilizerRecommendation: 'Get Fertilizer Recommendations',
+          },
+        },
+        about: {
+          bannerAlt: 'About Us Banner',
+          heading: 'About Us',
+          tagline: 'Soil Insight, Smarter Farming',
+          intro: {
+            p1: 'The SoilXpert Dashboard is designed to provide farmers and agricultural staff with region-wise insights into soil conditions. It offers rich data on nutrient availability, soil quality indicators, and recommended chemical inputs.',
+            p2: 'This initiative aims to enhance agricultural decisions and promote data-driven farming practices. The dashboard includes graphical analysis, map-based views, and summary information for informed actions.',
+          },
+          features: {
+            title: 'Key Features',
+            reportTitle: 'State-wise Soil Report',
+            reportDescription: 'Breakdown of soil nutrient levels across each state – categorized as High, Medium, and Low.',
+            updateTitle: 'Regular Updates',
+            updateDescription: 'Up-to-date data available as per the latest collection cycles and continuous monitoring.',
+          },
+          benefits: {
+            title: 'Dashboard Benefits',
+            point1: 'Helps in better understanding of soil quality and nutrient distribution.',
+            point2: 'Supports scientific fertilizer usage based on soil test results.',
+          },
+        },
+        services: {
+          title: 'Our Services',
+          description: 'Explore the range of services we offer to support smart and sustainable farming practices.',
+          soilTesting: {
+            title: 'Soil Testing Facilities',
+            desc: 'Access government-approved soil testing centers to check nutrient levels and health of your farm soil.',
+          },
+          soilReports: {
+            title: 'Soil Health Reports',
+            desc: 'Get detailed state and district-level reports on soil nutrient status and fertility levels.',
+          },
+          digitalAccess: {
+            title: 'Digital Access',
+            desc: 'User-friendly online platform to download reports and receive updates on soil health trends.',
+          },
+          farmerTraining: {
+            title: 'Farmer Training Programs',
+            desc: 'Attend awareness and training sessions on interpreting soil data and best agricultural practices.',
+          },
+          fertilizerAdvice: {
+            title: 'Fertilizer Recommendation',
+            desc: 'Get personalized fertilizer plans based on your soil test results and crop type.',
+          },
+          schemeSupport: {
+            title: 'Govt Scheme Support',
+            desc: 'Assistance in understanding and applying for central/state schemes related to soil and agriculture.',
+          },
+        },
+        contact: {
+          bannerAlt: 'Contact page banner',
+          heading: 'Contact Us',
+          tabs: {
+            DACFW: 'Department of Agriculture (DACFW)',
+            NIC: 'National Informatics Centre (NIC)',
+            STATE: 'State Officials',
+          },
+          table: {
+            name: 'Name',
+            designation: 'Designation',
+            phone: 'Phone',
+            email: 'Email',
+          },
+          noContacts: 'No contact information available for',
+        },
+        auth: {
+          signup: 'Signup',
+          login: 'Login',
+          logout: 'Logout',
+        },
+        signup: {
+          heading: 'Sign Up',
+          email: 'Email',
+          password: 'Password',
+          name: 'Full Name',
+          phone: 'Phone Number',
+          submit: 'Sign Up',
+          loading: 'Signing Up...',
+          successMessage: 'Signup successful! Redirecting to login...',
+          errorMessage: 'Signup failed. Please try again.',
+        },
+        nutrient: {
+          title: 'Nutrient Dashboard',
+        },
+        tabs: {
+          chart: 'Charts',
+          report: 'Soil Report',
+        },
+        filters: {
+          selectState: 'Select State',
+          selectDistrict: 'Select District',
+          selectBlock: 'Select Block',
+        },
+        fertilizer: {
+          title: 'Fertilizer Recommendation',
+          submit: 'Submit',
+          main: 'Main Fertilizers',
+          alternative: 'Alternative Fertilizers',
+          organic: 'Organic Amendment',
+          ph: 'pH',
+          nitrogen: 'Nitrogen',
+          phosphorus: 'Phosphorus',
+          potassium: 'Potassium',
+          organicCarbon: 'Organic Carbon',
+          Ph: 'pH',
+          low: 'Low',
+          medium: 'Medium',
+          high: 'High',
+          acidic: 'Acidic',
+          neutral: 'Neutral',
+          alkaline: 'Alkaline',
+          quantity: 'Quantity',
+          provides: 'Provides',
+          name: 'Name',
+          resultTitle: 'Fertilizer Recommendation Results'
+        },
+        charts: {
+          loading: 'Loading soil nutrient data...',
+        },
+        'Nutrient Dashboard': {
+          title: 'Nutrient Dashboard',
+          selectState: 'Select State',
+          selectDistrict: 'Select District',
+          selectBlock: 'Select Block',
+          table: {
+            name: 'Name',
+            oc: 'OC',
+            n: 'N',
+            p: 'P',
+            k: 'K',
+          },
+          noData: 'No data available.',
+        },
+        footer: {
+          title: 'SoilXpert',
+          quickLinks: {
+            title: 'Quick Links',
+            home: 'Home',
+            about: 'About',
+            services: 'Services',
+            contact: 'Contact',
+          },
+          importantLinks: {
+            title: 'Important Links',
+            calculator: 'Fertilizer Calculator',
+            weather: 'Weather Advisory',
+          },
+          contact: {
+            title: 'Contact Us',
+            address: 'XYZ',
+            phone: '+91-xxxxxxxxxx',
+            email: 'XXXXXX@gmail.com',
+          },
+        },
+      },
+    },
+  },
+  interpolation: {
+    escapeValue: false,
+  },
+});
+
+export default i18n;
