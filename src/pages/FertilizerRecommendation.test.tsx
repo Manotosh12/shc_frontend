@@ -1,76 +1,65 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import FertilizerRecommendation from './FertilizerRecommendation';
-import axios from 'axios';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18nTestConfig';
+import * as api from '../services/api';
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+jest.mock('../services/api');
 
-describe('FertilizerRecommendation Component', () => {
+describe('FertilizerRecommendation', () => {
+  const mockResponse = {
+    data: {
+      main_fertilizers: [
+        { name: 'Urea', quantity: '100kg', provides: 'Nitrogen' },
+      ],
+      alternative_fertilizers: [
+        { name: 'DAP', quantity: '80kg', provides: 'Nitrogen + Phosphorus' },
+      ],
+      organic: 'Use compost to increase organic carbon',
+      ph_correction: 'Apply lime to correct soil pH',
+    },
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders all input fields and the submit button', () => {
+  const renderWithProviders = () =>
     render(
       <I18nextProvider i18n={i18n}>
         <FertilizerRecommendation />
       </I18nextProvider>
     );
 
-    // Check for input fields (spinbutton = number inputs)
-    const inputs = screen.getAllByRole('spinbutton');
-    expect(inputs.length).toBe(15); // Adjust count if the form changes
+  it('should submit form and display fertilizer recommendation results', async () => {
+    (api.getFertilizerRecommendation as jest.Mock).mockResolvedValueOnce(mockResponse);
 
-    // Check for translated submit button
-    const submitButton = screen.getByRole('button', {
-      name: /submit/i, // or use: i18n.t('fertilizer.submit')
+    const { container } = renderWithProviders();
+
+    // Fill required nitrogen fields using name attributes
+    fireEvent.change(container.querySelector('input[name="nLow"]')!, { target: { value: '1' } });
+    fireEvent.change(container.querySelector('input[name="nMedium"]')!, { target: { value: '2' } });
+    fireEvent.change(container.querySelector('input[name="nHigh"]')!, { target: { value: '3' } });
+
+    // Submit
+    fireEvent.click(screen.getByRole('button', { name: /submit/i }));
+
+    // Wait for API and results
+    await waitFor(() => {
+      expect(api.getFertilizerRecommendation).toHaveBeenCalledWith({
+        n: { Low: 1, Medium: 2, High: 3 },
+        p: { Low: 0, Medium: 0, High: 0 },
+        k: { Low: 0, Medium: 0, High: 0 },
+        OC: { Low: 0, Medium: 0, High: 0 },
+        pH: { Acidic: 0, Neutral: 0, Alkaline: 0 },
+      });
     });
-    expect(submitButton).toBeInTheDocument();
-  });
 
-  it('submits form and displays results', async () => {
-    mockedAxios.post.mockResolvedValue({
-      data: {
-        main_fertilizers: [
-          { name: 'Urea', quantity: '50kg', provides: 'N' },
-        ],
-        alternative_fertilizers: [
-          { name: 'DAP', quantity: '40kg', provides: 'N, P' },
-        ],
-        organic: 'Use FYM 5 tons/acre',
-        ph_correction: 'Apply 2 qtl/acre Lime',
-      },
-    });
-
-    render(
-      <I18nextProvider i18n={i18n}>
-        <FertilizerRecommendation />
-      </I18nextProvider>
-    );
-
-    // Simulate user input (you can select better input fields using aria-labels if added)
-    const inputs = screen.getAllByRole('spinbutton');
-    fireEvent.change(inputs[0], { target: { value: '10' } });
-    fireEvent.change(inputs[1], { target: { value: '20' } });
-    fireEvent.change(inputs[2], { target: { value: '30' } });
-
-    // Submit the form
-    const submitButton = screen.getByRole('button', {
-      name: /submit/i,
-    });
-    fireEvent.click(submitButton);
-
-    // Wait for results section
-    await waitFor(() =>
-      expect(screen.getByText(/fertilizer recommendation results/i)).toBeInTheDocument()
-    );
-
-    // Assert result values
-    expect(screen.getByText(/urea/i)).toBeInTheDocument();
-    expect(screen.getByText(/DAP/i)).toBeInTheDocument();
-    expect(screen.getByText(/FYM/i)).toBeInTheDocument();
-    expect(screen.getByText(/Lime/i)).toBeInTheDocument();
+    // Expect results
+    expect(await screen.findByText(/Fertilizer Recommendation Results/i)).toBeInTheDocument();
+    expect(screen.getByText(/Urea - 100kg/)).toBeInTheDocument();
+    expect(screen.getByText(/DAP - 80kg/)).toBeInTheDocument();
+    expect(screen.getByText(/Use compost/)).toBeInTheDocument();
+    expect(screen.getByText(/Apply lime/)).toBeInTheDocument();
   });
 });
