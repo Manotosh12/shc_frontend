@@ -2,6 +2,13 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import AuthButtons from './AuthButtons';
 import { useAuth0 } from '@auth0/auth0-react';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+  }),
+}));
+
+
 // Mock useAuth0
 jest.mock('@auth0/auth0-react');
 const mockedUseAuth0 = useAuth0 as jest.Mock;
