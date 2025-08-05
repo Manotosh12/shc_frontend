@@ -1,4 +1,5 @@
 import axios from 'axios';
+import type { FertilizerRecommendationRequest } from '../fertilizer';
 
 const api = axios.create({
   baseURL: 'http://localhost:3000', // NestJS default port
@@ -9,6 +10,8 @@ const api = axios.create({
 });
 export { api };
 
+
+// API Endpoints
 export const fetchStates = () => api.get('/states');
 export const fetchDistrictsByState = (stateId: string) => api.get(`/districts/state/${stateId}`);
 export const fetchBlocksByDistrict = (districtId: string) => api.get(`/blocks/district/${districtId}`);
@@ -25,6 +28,8 @@ export const fetchDistrictSoilReportPie = (districtId: string) =>
 export const fetchBlockSoilReportPie = (blockId: string) =>
   api.get(`/soil-report-blockwise/block/${blockId}`);
 
+export const getFertilizerRecommendation = (data: FertilizerRecommendationRequest) =>
+  api.post('/recommendation', data);
 // Weather API functions
 export const fetchWeatherAdvisory = (params: {
   state?: string;
