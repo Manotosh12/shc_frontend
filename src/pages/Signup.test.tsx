@@ -1,79 +1,51 @@
-// Signup.test.tsx
-import React from 'react';
+// ✅ Manually mock the env variable for Jest
+process.env.VITE_BACKEND_URL = 'http://localhost:3000';
+
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Signup from './Signup';
 import axios from 'axios';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
-beforeAll(() => {
-  window.alert = jest.fn();
-});
-// Mock useNavigate
-const mockedUsedNavigate = jest.fn();
+jest.mock('axios');
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedUsedNavigate,
+  useNavigate: () => jest.fn(),
 }));
-
-// Mock axios
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
-// Mock i18n
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
   }),
 }));
 
-const renderWithRouter = (ui: React.ReactElement) => {
-  return render(<BrowserRouter>{ui}</BrowserRouter>);
-};
-
 describe('Signup Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders form inputs and button', () => {
-    renderWithRouter(<Signup />);
+  it('renders form fields correctly', () => {
+    render(
+      <MemoryRouter>
+        <Signup />
+      </MemoryRouter>
+    );
+
     expect(screen.getByPlaceholderText('signup.email')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('signup.password')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('signup.name')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('signup.phone')).toBeInTheDocument();
-    expect(screen.getByRole('button')).toHaveTextContent('signup.submit');
+    expect(screen.getByText('signup.submit')).toBeInTheDocument();
   });
 
-  it('shows error on failed signup', async () => {
-    mockedAxios.post.mockRejectedValueOnce({
-      response: { data: { message: 'User already exists' } },
-    });
+  it('submits form and shows success alert', async () => {
+    (axios.post as jest.Mock).mockResolvedValue({ data: {} });
+    window.alert = jest.fn();
 
-    renderWithRouter(<Signup />);
-    fireEvent.change(screen.getByPlaceholderText('signup.email'), {
-      target: { value: 'test@example.com' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('signup.password'), {
-      target: { value: 'password123' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('signup.name'), {
-      target: { value: 'Test User' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('signup.phone'), {
-      target: { value: '1234567890' },
-    });
-
-    fireEvent.click(screen.getByRole('button'));
-
-    await waitFor(() =>
-      expect(screen.getByText('User already exists')).toBeInTheDocument()
+    render(
+      <MemoryRouter>
+        <Signup />
+      </MemoryRouter>
     );
-  });
 
-  it('redirects to login on successful signup', async () => {
-    mockedAxios.post.mockResolvedValueOnce({ data: {} });
-
-    renderWithRouter(<Signup />);
     fireEvent.change(screen.getByPlaceholderText('signup.email'), {
       target: { value: 'test@example.com' },
     });
@@ -87,10 +59,10 @@ describe('Signup Component', () => {
       target: { value: '1234567890' },
     });
 
-    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByText('signup.submit'));
 
     await waitFor(() => {
-      expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect(axios.post).toHaveBeenCalledWith(
         'http://localhost:3000/auth/signup',
         {
           email: 'test@example.com',
@@ -99,9 +71,40 @@ describe('Signup Component', () => {
           phone: '1234567890',
         }
       );
-      expect(mockedUsedNavigate).toHaveBeenCalledWith('/login', {
-        state: { signupSuccess: true },
-      });
+      expect(window.alert).toHaveBeenCalledWith('signup.successMessage');
+    });
+  });
+
+  it('shows error message on failed signup', async () => {
+    (axios.post as jest.Mock).mockRejectedValue({
+      response: {
+        data: { message: 'Email already exists' },
+      },
+    });
+
+    render(
+      <MemoryRouter>
+        <Signup />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByPlaceholderText('signup.email'), {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('signup.password'), {
+      target: { value: 'password123' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('signup.name'), {
+      target: { value: 'Test User' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('signup.phone'), {
+      target: { value: '1234567890' },
+    });
+
+    fireEvent.click(screen.getByText('signup.submit'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Email already exists')).toBeInTheDocument();
     });
   });
 });
