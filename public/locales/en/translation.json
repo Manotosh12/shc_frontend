@@ -23,8 +23,26 @@
     "description": "Precision farming starts with healthy soil.",
     "buttons": {
       "nutrientDashboard": "View Nutrient Dashboard",
-      "fertilizerRecommendation": "Get Fertilizer Recommendations"
+      "fertilizerRecommendation": "Get Fertilizer Recommendations",
+      "weatherAdviser": "Weather Adviser"
     }
+  },
+  "weather": {
+    "title": "Weather Adviser",
+    "description": "Get weather forecasts and agricultural advisories for your location",
+    "locationSelection": "Location Selection",
+    "currentLocation": "Current Location",
+    "currentLocationDesc": "Use GPS location",
+    "manualLocation": "Manual Selection",
+    "manualLocationDesc": "Select state/district/block",
+    "getForecast": "Get Weather Forecast",
+    "loading": "Loading...",
+    "error": "Error",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "wind": "Wind",
+    "rainChance": "Rain Chance",
+    "advisory": "Agricultural Advisory"
   },
   "about": {
     "bannerAlt": "About Us Banner",
