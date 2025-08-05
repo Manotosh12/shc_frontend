@@ -1,30 +1,11 @@
 import axios from 'axios';
+import type { FertilizerRecommendationRequest } from '../fertilizer';
 
 const api = axios.create({
   baseURL: 'https://soil-health-card-tz26.onrender.com',
 });
 export { api };
 
-// Interfaces
-export interface NutrientLevels {
-  Low: number;
-  Medium: number;
-  High: number;
-}
-
-export interface PhLevels {
-  Acidic: number;
-  Neutral: number;
-  Alkaline: number;
-}
-
-export interface FertilizerRecommendationRequest {
-  n: NutrientLevels;
-  p: NutrientLevels;
-  k: NutrientLevels;
-  OC: NutrientLevels;
-  pH: PhLevels;
-}
 
 // API Endpoints
 export const fetchStates = () => api.get('/states');
