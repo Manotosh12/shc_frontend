@@ -25,7 +25,7 @@ export default function Signup() {
     setLoading(true);
     setError('');
     try {
-      await axios.post('http://localhost:3000/auth/signup', formData);
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/signup`, formData);
       alert(t('signup.successMessage'));
       navigate('/login', { state: { signupSuccess: true } });
     } catch (err) {
