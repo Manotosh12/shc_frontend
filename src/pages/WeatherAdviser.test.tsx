@@ -26,23 +26,32 @@ import {
 describe('WeatherAdviser', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    (fetchStates as jest.Mock).mockResolvedValue({ data: [
-      { state_id: '1', state_name: 'State1' },
-      { state_id: '2', state_name: 'State2' },
-    ] });
-    (fetchDistrictsByState as jest.Mock).mockResolvedValue({ data: [
-      { district_id: '10', district_name: 'District1' },
-    ] });
-    (fetchBlocksByDistrict as jest.Mock).mockResolvedValue({ data: [
-      { block_id: '100', block_name: 'Block1' },
-    ] });
-    // Mock geolocation
-    // @ts-ignore
-    global.navigator.geolocation = {
-      getCurrentPosition: jest.fn().mockImplementation((success, error) => {
-        success({ coords: { latitude: 12.34, longitude: 56.78 } });
-      }),
-    };
+
+    // Mock API responses
+    (fetchStates as jest.Mock).mockResolvedValue({
+      data: [
+        { state_id: '1', state_name: 'State1' },
+        { state_id: '2', state_name: 'State2' },
+      ],
+    });
+
+    (fetchDistrictsByState as jest.Mock).mockResolvedValue({
+      data: [{ district_id: '10', district_name: 'District1' }],
+    });
+
+    (fetchBlocksByDistrict as jest.Mock).mockResolvedValue({
+      data: [{ block_id: '100', block_name: 'Block1' }],
+    });
+
+    // ✅ Safely mock navigator.geolocation (read-only)
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: {
+        getCurrentPosition: jest.fn().mockImplementation((success) => {
+          success({ coords: { latitude: 12.34, longitude: 56.78 } });
+        }),
+      },
+      configurable: true,
+    });
   });
 
   test('renders WeatherAdviser main UI', async () => {
@@ -58,14 +67,17 @@ describe('WeatherAdviser', () => {
     render(<WeatherAdviser />);
     fireEvent.click(screen.getByText(/manual selection/i));
     await waitFor(() => expect(fetchStates).toHaveBeenCalled());
-    // Use getAllByRole for selects since they have no accessible name
+
     const selects = screen.getAllByRole('combobox');
+
     // Select state
     fireEvent.change(selects[0], { target: { value: 'State1' } });
     await waitFor(() => expect(fetchDistrictsByState).toHaveBeenCalled());
+
     // Select district
     fireEvent.change(selects[1], { target: { value: 'District1' } });
     await waitFor(() => expect(fetchBlocksByDistrict).toHaveBeenCalled());
+
     // Select block
     fireEvent.change(selects[2], { target: { value: 'Block1' } });
   });
@@ -73,7 +85,11 @@ describe('WeatherAdviser', () => {
   test('fetches and displays weather data', async () => {
     (fetchWeatherAdvisory as jest.Mock).mockResolvedValue({
       data: {
-        location: { name: 'Test City', region: 'Test Region', country: 'Test Country' },
+        location: {
+          name: 'Test City',
+          region: 'Test Region',
+          country: 'Test Country',
+        },
         forecast: [
           {
             date: '2024-06-01',
@@ -87,20 +103,25 @@ describe('WeatherAdviser', () => {
         ],
       },
     });
+
     render(<WeatherAdviser />);
-    // Use getByRole to get the button, not the paragraph
     const button = screen.getByRole('button', { name: /get weather forecast/i });
     fireEvent.click(button);
+
     await waitFor(() => expect(fetchWeatherAdvisory).toHaveBeenCalled());
     expect(await screen.findByText(/test city/i)).toBeInTheDocument();
     expect(screen.getByText(/test advisory/i)).toBeInTheDocument();
   });
 
   test('shows error message on API error', async () => {
-    (fetchWeatherAdvisory as jest.Mock).mockRejectedValue({ message: 'Failed to fetch weather data' });
+    (fetchWeatherAdvisory as jest.Mock).mockRejectedValue({
+      message: 'Failed to fetch weather data',
+    });
+
     render(<WeatherAdviser />);
     const button = screen.getByRole('button', { name: /get weather forecast/i });
     fireEvent.click(button);
+
     expect(await screen.findByText(/failed to fetch weather data/i)).toBeInTheDocument();
   });
 });
