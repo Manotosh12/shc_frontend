@@ -24,6 +24,45 @@ interface LocationOption {
   name: string;
 }
 
+interface StateResponse {
+  state_id: string;
+  state_name: string;
+}
+
+interface DistrictResponse {
+  district_id: string;
+  district_name: string;
+}
+
+interface BlockResponse {
+  block_id: string;
+  block_name: string;
+}
+
+interface WeatherParams {
+  lat?: string;
+  lon?: string;
+  state?: string;
+  district?: string;
+  block?: string;
+}
+
+interface ApiError {
+  message: string;
+  response?: {
+    status: number;
+    statusText: string;
+    data?: {
+      message?: string;
+    };
+  };
+  config?: {
+    url: string;
+    method: string;
+    headers: Record<string, string>;
+  };
+}
+
 const WeatherAdviser: React.FC = () => {
   const { t } = useTranslation();
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -45,7 +84,7 @@ const WeatherAdviser: React.FC = () => {
       try {
         const response = await fetchStates();
         // Transform the data to match our expected format
-        const transformedStates = response.data.map((state: any) => ({
+        const transformedStates = response.data.map((state: StateResponse) => ({
           id: state.state_id,
           name: state.state_name
         }));
@@ -69,7 +108,7 @@ const WeatherAdviser: React.FC = () => {
             const response = await fetchDistrictsByState(stateObj.id);
             console.log('Districts response:', response.data);
             // Transform the data to match our expected format
-            const transformedDistricts = response.data.map((district: any) => ({
+            const transformedDistricts = response.data.map((district: DistrictResponse) => ({
               id: district.district_id,
               name: district.district_name
             }));
@@ -100,7 +139,7 @@ const WeatherAdviser: React.FC = () => {
             const response = await fetchBlocksByDistrict(districtObj.id);
             console.log('Blocks response:', response.data);
             // Transform the data to match our expected format
-            const transformedBlocks = response.data.map((block: any) => ({
+            const transformedBlocks = response.data.map((block: BlockResponse) => ({
               id: block.block_id,
               name: block.block_name
             }));
@@ -132,7 +171,7 @@ const WeatherAdviser: React.FC = () => {
             lon: position.coords.longitude,
           });
         },
-        (error) => {
+        () => {
           reject(new Error('Unable to retrieve your location.'));
         }
       );
@@ -145,7 +184,7 @@ const WeatherAdviser: React.FC = () => {
     setWeatherData(null);
 
     try {
-      let params: any = {};
+      const params: WeatherParams = {};
 
       if (locationMethod === 'current') {
         const coords = await getCurrentLocation();
@@ -166,25 +205,26 @@ const WeatherAdviser: React.FC = () => {
       const response = await fetchWeatherAdvisory(params);
       console.log('Weather API response:', response.data);
       setWeatherData(response.data);
-    } catch (err: any) {
+    } catch (err) {
+      const apiError = err as ApiError;
       console.error('Weather API Error Details:', {
-        message: err.message,
-        status: err.response?.status,
-        statusText: err.response?.statusText,
-        data: err.response?.data,
-        url: err.config?.url,
-        method: err.config?.method,
-        headers: err.config?.headers
+        message: apiError.message,
+        status: apiError.response?.status,
+        statusText: apiError.response?.statusText,
+        data: apiError.response?.data,
+        url: apiError.config?.url,
+        method: apiError.config?.method,
+        headers: apiError.config?.headers
       });
       
-      if (err.response?.status === 404) {
+      if (apiError.response?.status === 404) {
         setError('Weather service endpoint not found. Please check if the weather module is deployed.');
-      } else if (err.response?.status === 500) {
+      } else if (apiError.response?.status === 500) {
         setError('Weather service internal error. Please try again later.');
-      } else if (err.response?.status === 403) {
+      } else if (apiError.response?.status === 403) {
         setError('Access denied. Please check authentication.');
       } else {
-        setError(err.response?.data?.message || err.message || 'Failed to fetch weather data');
+        setError(apiError.response?.data?.message || apiError.message || 'Failed to fetch weather data');
       }
     } finally {
       setLoading(false);
@@ -413,4 +453,4 @@ const WeatherAdviser: React.FC = () => {
   );
 };
 
-export default WeatherAdviser; 
+export default WeatherAdviser;
