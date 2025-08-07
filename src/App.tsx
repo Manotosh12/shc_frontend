@@ -11,6 +11,7 @@ import Contact from "./pages/Contact";
 import PrivateRoute from "./components/PrivateRoute";
 import NutrientDashboard from "./pages/NutrientDashboard";
 import FertilizerRecommendation from "./pages/FertilizerRecommendation";
+import WeatherAdviser from "./pages/WeatherAdviser";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/contact" element={<Layout><Contact /></Layout>} />
         <Route path="/nutrient-dashboard" element={<PrivateRoute><Layout><NutrientDashboard /></Layout></PrivateRoute>} />
         <Route path="/fertilizer-recommendation" element={<Layout><FertilizerRecommendation /></Layout>} />
+        <Route path="/weather-adviser" element={<Layout><WeatherAdviser /></Layout>} />
         <Route path="/signup" element={<Layout><Signup /></Layout>} />
         <Route path="/login" element={<Layout><Login /></Layout>} />
       </Routes>
