@@ -23,7 +23,8 @@
     "description": "ನಿಖರ ಕೃಷಿ ಆರೋಗ್ಯಕರ ಮಣ್ಣಿನಿಂದ ಆರಂಭವಾಗುತ್ತದೆ",
     "buttons": {
       "nutrientDashboard": "ಪೋಷಕಾಂಶ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ವೀಕ್ಷಿಸಿ",
-      "fertilizerRecommendation": "ರಾಸಾಯನಿಕ ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಿರಿ"
+      "fertilizerRecommendation": "ರಾಸಾಯನಿಕ ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಿರಿ",
+      "weatherAdvisory": "ಹವಾಮಾನ ಸಲಹೆ"
     }
   },
   "about": {
@@ -166,6 +167,23 @@
   },
   "noData": "ಡೇಟಾ ಲಭ್ಯವಿಲ್ಲ."
 },
+  "weather": {
+    "title": "ಹವಾಮಾನ ಸಲಹೆ",
+    "description": "ನಿಮ್ಮ ಸ್ಥಳಕ್ಕಾಗಿ ಹವಾಮಾನ ಮುನ್ಸೂಚನೆಗಳು ಮತ್ತು ಕೃಷಿ ಸಲಹೆಗಳನ್ನು ಪಡೆಯಿರಿ",
+    "locationSelection": "ಸ್ಥಳ ಆಯ್ಕೆ",
+    "currentLocation": "ಪ್ರಸ್ತುತ ಸ್ಥಳ",
+    "currentLocationDesc": "GPS ಸ್ಥಳವನ್ನು ಬಳಸಿರಿ",
+    "manualLocation": "ಮೆನುಯಲ್ ಆಯ್ಕೆ",
+    "manualLocationDesc": "ರಾಜ್ಯ/ಜಿಲ್ಲೆ/ಬ್ಲಾಕ್ ಆಯ್ಕೆಮಾಡಿ",
+    "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+    "getForecast": "ಹವಾಮಾನ ಮುನ್ಸೂಚನೆ ಪಡೆಯಿರಿ",
+    "error": "ದೋಷ",
+    "temperature": "ತಾಪಮಾನ",
+    "humidity": "ಆದ್ರತೆ",
+    "wind": "ಗಾಳಿ",
+    "rainChance": "ಮಳೆ ಸಂಭವನೀಯತೆ",
+    "advisory": "ಕೃಷಿ ಸಲಹೆ"
+  },
 "footer": {
   "title": "ಸಾಯ್ಲ್‌ಎಕ್ಸ್‌ಪರ್ಟ್",
   "quickLinks": {

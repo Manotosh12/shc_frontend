@@ -23,7 +23,8 @@
     "description": "स्वस्थ मिट्टी से होती है सटीक खेती की शुरुआत",
     "buttons": {
       "nutrientDashboard": "पोषक तत्व डैशबोर्ड देखें",
-      "fertilizerRecommendation": "उर्वरक सिफारिश प्राप्त करें"
+      "fertilizerRecommendation": "उर्वरक सिफारिश प्राप्त करें",
+      "weatherAdvisory": "मौसम सलाह"
     }
   },
   "about": {
@@ -167,6 +168,23 @@
   },
   "noData": "कोई डेटा उपलब्ध नहीं है।"
 },
+  "weather": {
+    "title": "मौसम सलाह",
+    "description": "अपने स्थान के लिए मौसम पूर्वानुमान और कृषि सलाह प्राप्त करें",
+    "locationSelection": "स्थान चयन",
+    "currentLocation": "वर्तमान स्थान",
+    "currentLocationDesc": "GPS स्थान का उपयोग करें",
+    "manualLocation": "मैनुअल चयन",
+    "manualLocationDesc": "राज्य/जिला/ब्लॉक चुनें",
+    "loading": "लोड हो रहा है...",
+    "getForecast": "मौसम पूर्वानुमान प्राप्त करें",
+    "error": "त्रुटि",
+    "temperature": "तापमान",
+    "humidity": "आर्द्रता",
+    "wind": "हवा",
+    "rainChance": "बारिश की संभावना",
+    "advisory": "कृषि सलाह"
+  },
 "footer": {
   "title": "सॉइलएक्सपर्ट",
   "quickLinks": {
