@@ -30,9 +30,8 @@ const Footer: React.FC = () => {
           {/* Important Links */}
           <div>
             <h3 className="text-sm font-semibold mb-2 text-green-300">{t('footer.importantLinks.title')}</h3>
-            <ul className="space-y-1.5 text-sm text-gray-300">
-              <li>{t('footer.importantLinks.calculator')}</li>
-              <li>{t('footer.importantLinks.weather')}</li>
+            <ul className="space-y-1.5 text-sm">
+              <li><Link to="/weather-advisory" className="hover:text-green-400 transition-colors">{t('footer.importantLinks.weather')}</Link></li>
             </ul>
           </div>
 
