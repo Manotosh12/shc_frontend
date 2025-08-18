@@ -32,25 +32,6 @@ export const fetchBlockSoilReportPie = (blockId: string) =>
 export const getFertilizerRecommendation = (data: FertilizerRecommendationRequest) =>
   api.post('/recommendation', data);
 // Weather API functions
-export const fetchWeatherAdvisory = (params: {
-  state?: string;
-  district?: string;
-  block?: string;
-  lat?: string;
-  lon?: string;
-}) => {
-  const queryParams = new URLSearchParams();
-  if (params.state) queryParams.append('state', params.state);
-  if (params.district) queryParams.append('district', params.district);
-  if (params.block) queryParams.append('block', params.block);
-  if (params.lat) queryParams.append('lat', params.lat);
-  if (params.lon) queryParams.append('lon', params.lon);
-  
-  const url = `/weather/advisory?${queryParams.toString()}`;
-  console.log('Weather API Request URL:', url);
-  console.log('Weather API Request Params:', params);
-  
-  return api.get(url);
-};
+
 
 

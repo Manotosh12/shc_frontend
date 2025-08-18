@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { fetchWeatherAdvisory, fetchStates, fetchDistrictsByState, fetchBlocksByDistrict } from '../services/api';
+import {  fetchStates, fetchDistrictsByState, fetchBlocksByDistrict } from '../services/api';
+import { fetchWeatherAdvisory } from '../weather/weather';
 
 interface WeatherData {
   location: {
