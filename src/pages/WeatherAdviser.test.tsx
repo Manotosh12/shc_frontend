@@ -1,5 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import WeatherAdviser from './WeatherAdviser';
+
+
+
 
 // Mock i18next translation
 jest.mock('react-i18next', () => ({
@@ -10,18 +12,24 @@ jest.mock('react-i18next', () => ({
 
 // Mock API functions
 jest.mock('../services/api', () => ({
-  fetchWeatherAdvisory: jest.fn(),
   fetchStates: jest.fn(),
   fetchDistrictsByState: jest.fn(),
   fetchBlocksByDistrict: jest.fn(),
 }));
 
+jest.mock('../weather/weather', () => ({
+  fetchWeatherAdvisory: jest.fn(),
+}));
+
+  
+import {fetchWeatherAdvisory} from '../weather/weather';
+
 import {
-  fetchWeatherAdvisory,
   fetchStates,
   fetchDistrictsByState,
   fetchBlocksByDistrict,
 } from '../services/api';
+import WeatherAdviser from './WeatherAdviser';
 
 describe('WeatherAdviser', () => {
   beforeEach(() => {
