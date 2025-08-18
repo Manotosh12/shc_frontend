@@ -1,5 +1,6 @@
 import axios from 'axios';
-import type { FertilizerRecommendationRequest } from '../fertilizer';
+import type { FertilizerRecommendationRequest } from '../Fertilizer/Fertilizer';
+
 
 const api = axios.create({
   baseURL: 'http://localhost:3000', // NestJS default port

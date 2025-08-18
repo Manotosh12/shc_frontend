@@ -24,11 +24,11 @@
     "buttons": {
       "nutrientDashboard": "View Nutrient Dashboard",
       "fertilizerRecommendation": "Get Fertilizer Recommendations",
-      "weatherAdviser": "Weather Adviser"
+      "weatherAdvisory": "Weather Advisory"
     }
   },
   "weather": {
-    "title": "Weather Adviser",
+    "title": "Weather Advisory",
     "description": "Get weather forecasts and agricultural advisories for your location",
     "locationSelection": "Location Selection",
     "currentLocation": "Current Location",
