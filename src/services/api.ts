@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { FertilizerRecommendationRequest } from '../fertilizer';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000', // NestJS default port
+  baseURL: 'https://soil-health-card-frontend.onrender.com', 
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
