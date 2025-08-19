@@ -100,18 +100,7 @@ const NutrientDashboard = () => {
             </select>
           )}
 
-          {blocks.length > 0 && (
-            <select
-              value={selectedBlock}
-              onChange={e => setSelectedBlock(e.target.value)}
-              className="p-2 border rounded"
-            >
-              <option value="">{t('filters.selectBlock')}</option>
-              {blocks.map(block => (
-                <option key={block.block_id} value={block.block_id}>{block.block_name}</option>
-              ))}
-            </select>
-          )}
+          
         </div>
       )}
 
