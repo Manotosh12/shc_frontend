@@ -3,7 +3,7 @@ import type { FertilizerRecommendationRequest } from '../Fertilizer/Fertilizer';
 
 
 const api = axios.create({
-  baseURL: 'https://soil-health-card-frontend.onrender.com', 
+  baseURL: 'https://soil-health-card-tz26.onrender.com',  // Update with your actual backend URL
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -31,7 +31,7 @@ export const fetchBlockSoilReportPie = (blockId: string) =>
 
 export const getFertilizerRecommendation = (data: FertilizerRecommendationRequest) =>
   api.post('/recommendation', data);
-// Weather API functions
+
 
 
 
