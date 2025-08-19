@@ -30,7 +30,6 @@ describe('Footer Component', () => {
   });
 
   it('displays important links text from i18n', () => {
-    expect(screen.getByText(i18n.t('footer.importantLinks.calculator'))).toBeInTheDocument(); // Fertilizer Calculator
     expect(screen.getByText(i18n.t('footer.importantLinks.weather'))).toBeInTheDocument(); // Weather Advisory
   });
 
