@@ -1,23 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   fetchStates, fetchDistrictsByState, fetchBlocksByDistrict,
   fetchDistrictSoilReportByState, fetchBlockSoilReportByDistrict
 } from '../services/api';
+import * as XLSX from 'xlsx';
 
-interface State {
-  state_id: string;
-  state_name: string;
-}
-
-interface District {
-  district_id: string;
-  district_name: string;
-}
-
-interface Block {
-  block_id: string;
-  block_name: string;
-}
+interface State { state_id: string; state_name: string; }
+interface District { district_id: string; district_name: string; }
+interface Block { block_id: string; block_name: string; }
 
 interface SoilReport {
   locationName: string;
@@ -29,16 +19,8 @@ interface SoilReport {
   timestamp: string;
 }
 
-// API Response types - Remove custom AxiosXHR definition since we're using Axios types
-interface DistrictWithSoilReports {
-  district_name: string;
-  soil_reports?: SoilReport[];
-}
-
-interface BlockWithSoilReports {
-  block_name: string;
-  soil_reports?: SoilReport[];
-}
+interface DistrictWithSoilReports { district_name: string; soil_reports?: SoilReport[]; }
+interface BlockWithSoilReports { block_name: string; soil_reports?: SoilReport[]; }
 
 function getPercent(value: number, obj: { [key: string]: number }) {
   const total = Object.values(obj || {}).reduce((sum, v) => sum + (typeof v === 'number' ? v : 0), 0);
@@ -50,32 +32,28 @@ const SoilReportDashboard = () => {
   const [states, setStates] = useState<State[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
   const [blocks, setBlocks] = useState<Block[]>([]);
-
   const [selectedState, setSelectedState] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [selectedBlock, setSelectedBlock] = useState('');
-
   const [reports, setReports] = useState<SoilReport[]>([]);
 
-  useEffect(() => {
-    fetchStates().then((res) => setStates(res.data as State[]));
-  }, []);
+  // Export dropdown state
+  const [exportOpen, setExportOpen] = useState(false);
+  const exportRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { fetchStates().then((res) => setStates(res.data as State[])); }, []);
 
   useEffect(() => {
     if (selectedState) {
       fetchDistrictsByState(selectedState).then((res) => setDistricts(res.data as District[]));
       fetchDistrictSoilReportByState(selectedState).then((res) => {
         const districtsData = res.data as DistrictWithSoilReports[];
-        const flatReports = districtsData.flatMap((district: DistrictWithSoilReports) =>
-          (district.soil_reports || []).map((report: SoilReport) => ({
-            ...report,
-            locationName: district.district_name,
-          }))
+        const flatReports = districtsData.flatMap(d =>
+          (d.soil_reports || []).map(r => ({ ...r, locationName: d.district_name }))
         );
         setReports(flatReports);
       });
-      setSelectedDistrict('');
-      setSelectedBlock('');
+      setSelectedDistrict(''); setSelectedBlock('');
     }
   }, [selectedState]);
 
@@ -84,11 +62,8 @@ const SoilReportDashboard = () => {
       fetchBlocksByDistrict(selectedDistrict).then((res) => setBlocks(res.data as Block[]));
       fetchBlockSoilReportByDistrict(selectedDistrict).then((res) => {
         const blocksData = (res.data as BlockWithSoilReports[]) ?? [];
-        const flatReports = blocksData.flatMap((block: BlockWithSoilReports) =>
-          (block.soil_reports || []).map((report: SoilReport) => ({
-            ...report,
-            locationName: block.block_name,
-          }))
+        const flatReports = blocksData.flatMap(b =>
+          (b.soil_reports || []).map(r => ({ ...r, locationName: b.block_name }))
         );
         setReports(flatReports);
       });
@@ -96,32 +71,85 @@ const SoilReportDashboard = () => {
     }
   }, [selectedDistrict]);
 
+  // Close export dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (exportRef.current && !exportRef.current.contains(event.target as Node)) {
+        setExportOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const getFlattenedReports = () => {
+    return reports.map(r => ({
+      Location: r.locationName,
+      Nitrogen_High: getPercent(r.n?.High ?? 0, r.n),
+      Nitrogen_Medium: getPercent(r.n?.Medium ?? 0, r.n),
+      Nitrogen_Low: getPercent(r.n?.Low ?? 0, r.n),
+      Phosphorous_High: getPercent(r.p?.High ?? 0, r.p),
+      Phosphorous_Medium: getPercent(r.p?.Medium ?? 0, r.p),
+      Phosphorous_Low: getPercent(r.p?.Low ?? 0, r.p),
+      Potassium_High: getPercent(r.k?.High ?? 0, r.k),
+      Potassium_Medium: getPercent(r.k?.Medium ?? 0, r.k),
+      Potassium_Low: getPercent(r.k?.Low ?? 0, r.k),
+      OC_High: getPercent(r.OC?.High ?? 0, r.OC),
+      OC_Medium: getPercent(r.OC?.Medium ?? 0, r.OC),
+      OC_Low: getPercent(r.OC?.Low ?? 0, r.OC),
+      pH_Acidic: getPercent(r.pH?.Acidic ?? 0, r.pH),
+      pH_Neutral: getPercent(r.pH?.Neutral ?? 0, r.pH),
+      pH_Alkaline: getPercent(r.pH?.Alkaline ?? 0, r.pH),
+    }));
+  };
+
+  const handleExportCSV = () => {
+    const flattened = getFlattenedReports();
+    const ws = XLSX.utils.json_to_sheet(flattened);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'SoilReport');
+    XLSX.writeFile(wb, 'soil_report.csv');
+    setExportOpen(false);
+  };
+
+  const handleExportExcel = () => {
+    const flattened = getFlattenedReports();
+    const ws = XLSX.utils.json_to_sheet(flattened);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'SoilReport');
+    XLSX.writeFile(wb, 'soil_report.xlsx');
+    setExportOpen(false);
+  };
+
   return (
     <div className="p-6">
       <div className="flex gap-4 mb-6">
         <select value={selectedState} onChange={e => setSelectedState(e.target.value)} className="p-2 border rounded">
           <option value="">Select a state</option>
-          {states.map(state => (
-            <option key={state.state_id} value={state.state_id}>{state.state_name}</option>
-          ))}
+          {states.map(state => (<option key={state.state_id} value={state.state_id}>{state.state_name}</option>))}
         </select>
 
         <select value={selectedDistrict} onChange={e => setSelectedDistrict(e.target.value)} className="p-2 border rounded" disabled={!selectedState}>
           <option value="">Select a district</option>
-          {districts.map(d => (
-            <option key={d.district_id} value={d.district_id}>{d.district_name}</option>
-          ))}
+          {districts.map(d => (<option key={d.district_id} value={d.district_id}>{d.district_name}</option>))}
         </select>
 
         <select value={selectedBlock} onChange={e => setSelectedBlock(e.target.value)} className="p-2 border rounded" disabled={!selectedDistrict}>
           <option value="">Select a block</option>
-          {blocks.map(b => (
-            <option key={b.block_id} value={b.block_id}>{b.block_name}</option>
-          ))}
+          {blocks.map(b => (<option key={b.block_id} value={b.block_id}>{b.block_name}</option>))}
         </select>
+
+        {/* Export Dropdown */}
+        <div className="relative" ref={exportRef}>
+          <button className="p-2 border rounded bg-green-600" onClick={() => setExportOpen(!exportOpen)}>Export</button>
+          {exportOpen && (
+            <div className="absolute mt-1 bg-white border rounded shadow">
+              <button className="block w-full text-left px-4 py-2 hover:bg-green-100" onClick={handleExportCSV}>CSV</button>
+              <button className="block w-full text-left px-4 py-2 hover:bg-green-100" onClick={handleExportExcel}>Excel</button>
+            </div>
+          )}
+        </div>
       </div>
-      
-      
 
       <div className="overflow-x-auto mt-8">
         <table className="min-w-full bg-white border rounded shadow">
