@@ -3,7 +3,7 @@ import type { FertilizerRecommendationRequest } from '../Fertilizer/Fertilizer';
 
 
 const api = axios.create({
-  baseURL: 'https://soil-health-card-tz26.onrender.com',  // Update with your actual backend URL
+  baseURL: 'http://localhost:3000',  // Update with your actual backend URL
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
