@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import {  fetchStates, fetchDistrictsByState, fetchBlocksByDistrict } from '../services/api';
-import { fetchWeatherAdvisory } from '../weather/weather';
+import {  fetchStates, fetchDistrictsByState, fetchBlocksByDistrict, fetchWeatherAdvisory } from '../services/api';
+
 
 interface WeatherData {
   location: {
@@ -187,7 +187,7 @@ const WeatherAdvisory: React.FC = () => {
       }
 
       const response = await fetchWeatherAdvisory(params);
-      setWeatherData(response.data);
+      setWeatherData(response);
     } catch (err) {
       const apiError = err as ApiError;
       if (apiError.response?.status === 404) {

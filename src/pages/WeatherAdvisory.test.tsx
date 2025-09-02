@@ -2,7 +2,8 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import WeatherAdvisory from './WeatherAdvisory';
 import { fetchStates } from '../services/api';
-import { fetchWeatherAdvisory } from '../weather/weather';
+import { fetchWeatherAdvisory } from '../services/api';
+
 
 beforeAll(() => {
   jest.spyOn(console, 'error').mockImplementation((msg: unknown) => {
@@ -41,10 +42,11 @@ jest.mock('../services/api', () => ({
   fetchStates: jest.fn(),
   fetchDistrictsByState: jest.fn(),
   fetchBlocksByDistrict: jest.fn(),
+  fetchWeatherAdvisory: jest.fn()
 }));
-jest.mock('../weather/weather', () => ({
-  fetchWeatherAdvisory: jest.fn(),
-}));
+// jest.mock('../weather/weather', () => ({
+//   fetchWeatherAdvisory: jest.fn(),
+// }));
 
 const mockGeolocation = {
   getCurrentPosition: jest.fn(),
