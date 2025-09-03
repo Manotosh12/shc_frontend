@@ -1,9 +1,9 @@
 // api.ts
 import axios from 'axios';
 import type { FertilizerRecommendationRequest } from '../Fertilizer/Fertilizer';
-
+const baseURL = 'https://shc-backend-to24.onrender.com'
 const api = axios.create({
-  baseURL: process.env.VITE_BACKEND_URL || 'http://localhost:3000',
+  baseURL: baseURL || 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
