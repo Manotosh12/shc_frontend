@@ -384,7 +384,7 @@ const WeatherAdvisory: React.FC = () => {
         )}
 
         {/* Weather Data Display */}
-        {weatherData && (
+        {weatherData?.location && (
           <div className="space-y-6">
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-semibold text-gray-800 mb-4">
