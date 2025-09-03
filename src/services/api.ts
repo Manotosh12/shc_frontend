@@ -3,7 +3,7 @@ import axios from 'axios';
 import type { FertilizerRecommendationRequest } from '../Fertilizer/Fertilizer';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000',
+  baseURL: process.env.VITE_BACKEND_URL || 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
