@@ -65,9 +65,9 @@ const Navbar = () => {
               className="bg-white text-black border border-dark rounded px-2 py-1"
               defaultValue="en"
             >
-              <option value="en">English</option>
-              <option value="hi">Hindi</option>
-              <option value="kn">Kannada</option>
+              <option value="en">🌐English(En)</option>
+              <option value="hi">हिन्दी(Hi)</option>
+              <option value="kn">ಕನ್ನಡ(Kn)</option>
             </select>
           </nav>
         </div>
