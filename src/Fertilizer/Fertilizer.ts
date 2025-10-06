@@ -1,19 +1,14 @@
-export interface NutrientLevels {
-  Low: number;
-  Medium: number;
-  High: number;
+export interface FertilizerDirectRequest {
+  n: number;
+  p: number;
+  k: number;
+  OC: number;
+  pH: number;
 }
 
-export interface PhLevels {
-  Acidic: number;
-  Neutral: number;
-  Alkaline: number;
-}
-
-export interface FertilizerRecommendationRequest {
-  n: NutrientLevels;
-  p: NutrientLevels;
-  k: NutrientLevels;
-  OC: NutrientLevels;
-  pH: PhLevels;
+export interface FertilizerDirectResponse {
+  main_fertilizers: { name: string; quantity: string; provides: string }[];
+  alternative_fertilizers: { name: string; quantity: string; provides: string }[];
+  organic: string;
+  ph_correction: string;
 }
