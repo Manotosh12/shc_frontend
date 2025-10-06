@@ -1,6 +1,7 @@
 // api.ts
 import axios from 'axios';
-import type { FertilizerRecommendationRequest } from '../Fertilizer/Fertilizer';
+import type { FertilizerDirectRequest, FertilizerDirectResponse } from '../Fertilizer/Fertilizer';
+
 const baseURL = 'https://shc-backend-to24.onrender.com'
 const api = axios.create({
   baseURL: baseURL || 'http://localhost:3000',
@@ -31,8 +32,8 @@ export const fetchDistrictSoilReportPie = (districtId: string) =>
 export const fetchBlockSoilReportPie = (blockId: string) =>
   api.get(`/soil-report-blockwise/block/${blockId}`);
 
-export const getFertilizerRecommendation = (data: FertilizerRecommendationRequest) =>
-  api.post('/recommendation', data);
+// export const getFertilizerRecommendation = (data: FertilizerRecommendationRequest) =>
+//   api.post('/recommendation', data);
 
 // ✅ Weather API (fixed)
 export const fetchWeatherAdvisory = async (params: {
@@ -56,3 +57,9 @@ export const fetchWeatherAdvisory = async (params: {
   const response = await api.get(url);
   return response.data;
 };
+// api.ts  (append at the end)
+
+
+// ✅ Numeric fertilizer recommendation (direct input)
+export const getFertilizerDirectRecommendation = (data: FertilizerDirectRequest) =>
+  api.post<FertilizerDirectResponse>('/fertilizer-direct', data);
